@@ -1,3 +1,4 @@
+// test
 var camera, scene, renderer;
 var sceneCube, cameraCube;
 
