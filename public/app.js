@@ -1,5 +1,5 @@
 var camera, scene, renderer, container;
-var controls;
+var controls, trackballControls;
 var group, planeGroup, texture;
 var hemisphereLight, shadowLight;
 var planeRotation = 0;
@@ -7,6 +7,7 @@ var planeRotation = 0;
 var mouse = { x: 0, y: 0 }, INTERSECTED;
 
 var loader = new THREE.TextureLoader();
+var clock = new THREE.Clock()
 
 function createScene(){
 
@@ -17,11 +18,13 @@ function createScene(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( WIDTH, HEIGHT );
     renderer.shadowMap.enabled = true;
-    renderer.setClearColor(0x3399ff);
+    // renderer.setClearColor(0x3399ff);
 
     scene = new THREE.Scene();
 
     // CAMERAS
+    // =============================================
+
     aspectRatio = WIDTH / HEIGHT;
     fieldOfView = 60;
     nearPlane = 0.5;
@@ -36,12 +39,41 @@ function createScene(){
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
 
-    // dat.GUI & controls
+
+    // SKYBOX
+    // =============================================
+
+    // var axes = new THREE.AxisHelper(100);
+    // scene.add(axes);
+
+    var imagePrefix = "img/";
+    var urls = [
+        `space.jpg`,
+        `space.jpg`,
+        `space.jpg`,
+        `space.jpg`,
+        `space.jpg`,
+        `space.jpg`
+    ]
+    var skyBox = new THREE.CubeTextureLoader().setPath(imagePrefix).load(urls)
+    scene.background = skyBox
+
+
+    // TRACKBALL CONTROLS
+    // =============================================
+
+    trackballControls = new THREE.TrackballControls(camera)
+    trackballControls.rotateSpeed = 0.2
+    trackballControls.zoomSpeed = 0.1
+    trackballControls.panSpeed = 0.1
+
+
+    // DAT.GUI
+    // =============================================
 
     controls = new function(){
-        this.positionX = 0;
+        this.positionX = 0
         this.positionY = 0
-
         this.nodeRotationY = 0.02
     }
 
@@ -50,6 +82,10 @@ function createScene(){
     gui.add(controls, 'positionY', -20, 20)
     gui.add(controls, 'nodeRotationY', 0.01, 0.09)
 }
+
+
+// CREATE PLANES
+// =============================================
 
 function createPlane(x,y,name,img_path) {
     // PLANES where iframes will be
@@ -78,29 +114,42 @@ function createPlane(x,y,name,img_path) {
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
-    createPlane(-25, -20, "plane1", "./img/websites/dralisonblack.png")
-    createPlane(-25, 0, "plane2", "./img/websites/galleria.png")
-    createPlane(-25, 20, "plane3", "./img/websites/gentledental.png")
-    createPlane(0, -20, "plane4", "./img/websites/mcdowell.png")
-    createPlane(0, 0, "plane5", "./img/websites/rexmenu.png")
-    createPlane(0, 20, "plane6", "./img/websites/static_home.png")
-    createPlane(25, -20, "plane7", "./img/websites/tsrh_home.png")
-    createPlane(25, 0, "plane8", "./img/websites/dralisonblack.png")
-    createPlane(25, 20, "plane9", "./img/websites/dralisonblack.png")
+    createPlane(-25, 20, "plane1", "./img/websites/advanced_cosmetic_dentistry.png")
+    createPlane(0, 20, "plane2", "./img/websites/rexmenu.png")
+    createPlane(25, 20, "plane3", "./img/websites/dr_maieve.png")
+
+    createPlane(-25, 0, "plane3", "./img/websites/dr_alison_black.png")
+    createPlane(0, 0, "plane5", "./img/websites/atlas_vein.png")
+    createPlane(25, 0, "plane6", "./img/websites/galleria.png")
+
+    createPlane(-25, -20, "plane7", "./img/websites/priest_dental.png")
+    createPlane(0, -20, "plane8", "./img/websites/retinal_san_antonio.png")
+    createPlane(25, -20, "plane9", "./img/websites/schlessinger.png")
+
+    createPlane(-25, -40, "plane10", "./img/websites/static_home.png")
+    createPlane(0, -40, "plane11", "./img/websites/tsrh_home.png")
+    createPlane(25, -40, "plane12", "./img/websites/urogynecology_center.png")
+
+    createPlane(-25, -60, "plane13", "./img/websites/gentle_dental.png")
+    createPlane(0, -60, "plane14", "./img/websites/mcdowell.png")
+    createPlane(25, -60, "plane15", "./img/websites/dental_phobia.png")
+
+    createPlane(-25, -80, "plane16", "./img/websites/belcor_builders.png")
+    createPlane(0, -80, "plane17", "./img/websites/eye_surgery_center.png")
+    createPlane(25, -80, "plane18", "./img/websites/centerderm.png")
+
+    createPlane(-25, -100, "plane19", "./img/websites/smiles_4_a_lifetime.png")
+    createPlane(0, -100, "plane20", "./img/websites/tennessee_vein.png")
+    createPlane(25, -100, "plane21", "./img/websites/the_vein_clinic.png")
 
     scene.add(planeGroup);
 }
-init()
-function init(){
-    createScene();
-    createPlaneGroup();
-    // createLights();
-    render();
-}
+
+
+// RENDER
+// =============================================
 
 function render(){
-    renderer.render(scene, camera);
-
     scene.position.x = controls.positionX
     scene.position.y = controls.positionY
 
@@ -112,8 +161,24 @@ function render(){
             // node.rotation.y += controls.nodeRotationY
         }
     })
+
+    var delta = clock.getDelta()
+    trackballControls.update(delta)
     requestAnimationFrame(render);
+    renderer.render(scene, camera);
 }
+
+init()
+function init(){
+    createScene();
+    // createLights();
+    createPlaneGroup();
+    render();
+}
+
+
+// =============================================
+
 
 function onDocumentMouseDown(event) {
 
@@ -125,9 +190,16 @@ function onDocumentMouseDown(event) {
     if (intersects.length > 0) {
         console.log(intersects[0]);
         intersects[0].object.rotation.y += 0.1
-        intersects[1].object.rotation.y += 0.1
+        // intersects[1].object.rotation.y += 0.1
     }
 }
+
+function createLights() {
+    var ambiColor = "#000000"
+    var ambientLight = new THREE.AmbientLight(ambiColor)
+    scene.add(ambientLight)
+}
+
 
 // function createFrames(){
 //     var x = -20;
