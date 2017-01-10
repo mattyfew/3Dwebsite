@@ -5,7 +5,8 @@ var hemisphereLight, shadowLight;
 var text1, text2;
 var planeRotation = 0;
 
-// testing
+// testing 123455678
+// blah
 
 var mouse = { x: 0, y: 0 }, INTERSECTED;
 
