@@ -2,6 +2,7 @@ var camera, scene, renderer, container;
 var controls, trackballControls;
 var group, planeGroup, texture;
 var hemisphereLight, shadowLight;
+var text1, text2;
 var planeRotation = 0;
 
 var mouse = { x: 0, y: 0 }, INTERSECTED;
@@ -154,7 +155,7 @@ function render(){
     scene.position.y = controls.positionY
 
     scene.traverse(function(node){
-        if ( node instanceof THREE.Mesh){
+        if ( node instanceof THREE.Mesh && node.name != "Matt"){
             if (node.rotation.y > 0){
                 node.rotation.y += 0.1
             }
@@ -171,13 +172,53 @@ function render(){
 init()
 function init(){
     createScene();
-    // createLights();
+    createLights();
+    createNav();
     createPlaneGroup();
     render();
 }
 
 
 // =============================================
+
+function createNav(){
+    // var options = {
+    //     size: 90,
+    //     height: 90,
+    //     weight: 'normal',
+    //     font: 'helvetiker',
+    //     style: 'normal',
+    //     bevelThickness: 2,
+    //     bevelSize: 4,
+    //     bevelSegments: 3,
+    //     bevelEnabled: true,
+    //     curveSegments: 12,
+    //     steps: 1
+    // };
+    var loader = new THREE.FontLoader();
+
+    loader.load( './fonts/helvetiker_bold.typeface.js', function ( font ) {
+
+        var textGeo = new THREE.TextGeometry( "Matt Fewer", {
+            font: font,
+            size: 100,
+            height: 50,
+            curveSegments: 12,
+            bevelThickness: 2,
+            bevelSize: 3,
+            bevelEnabled: true
+        } );
+
+        var textMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+
+        var mesh = new THREE.Mesh( textGeo, textMaterial );
+        mesh.position.set( 0,0,-500 );
+        mesh.name = "Matt"
+
+        scene.add( mesh );
+
+    } );
+};
 
 
 function onDocumentMouseDown(event) {
@@ -187,7 +228,7 @@ function onDocumentMouseDown(event) {
     var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
     var intersects = raycaster.intersectObjects(scene.children, true);
 
-    if (intersects.length > 0) {
+    if (intersects.length > 0 && intersects[0].object.name != "Matt") {
         console.log(intersects[0]);
         intersects[0].object.rotation.y += 0.1
         // intersects[1].object.rotation.y += 0.1
@@ -195,28 +236,11 @@ function onDocumentMouseDown(event) {
 }
 
 function createLights() {
-    var ambiColor = "#000000"
+    var ambiColor = "#ffffff"
     var ambientLight = new THREE.AmbientLight(ambiColor)
     scene.add(ambientLight)
 }
 
-
-// function createFrames(){
-//     var x = -20;
-//     var y = 0;
-//     for(var i = 0; i < 12; i++) {
-//         console.log("i is "+ i);
-//         if(x === 40){
-//             console.log(y);
-//             x = -20;
-//             y -= 20;
-//             createPlane(x, y , 0);
-//         } else {
-//             createPlane(x, y , 0);
-//         }
-//         x += 20
-//     }
-// }
 function handleWindowResize() {
 	// update height and width of the renderer and the camera
 	HEIGHT = window.innerHeight;
