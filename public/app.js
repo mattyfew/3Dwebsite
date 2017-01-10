@@ -2,7 +2,7 @@ var camera, scene, renderer, container;
 var controls, trackballControls;
 var group, planeGroup, texture;
 var hemisphereLight, shadowLight;
-var text1, text2;
+var textMesh;
 var planeRotation = 0;
 
 var mouse = { x: 0, y: 0 }, INTERSECTED;
@@ -19,7 +19,8 @@ function createScene(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( WIDTH, HEIGHT );
     renderer.shadowMap.enabled = true;
-    // renderer.setClearColor(0x3399ff);
+
+    renderer.setClearColor(0x3399ff);
 
     scene = new THREE.Scene();
 
@@ -76,12 +77,14 @@ function createScene(){
         this.positionX = 0
         this.positionY = 0
         this.nodeRotationY = 0.02
+        this.text_position_x = -350
     }
 
     var gui = new dat.GUI();
     gui.add(controls, 'positionX', -20, 20)
     gui.add(controls, 'positionY', -20, 20)
     gui.add(controls, 'nodeRotationY', 0.01, 0.09)
+    gui.add(controls, 'text_position_x', -600, 600)
 }
 
 
@@ -155,11 +158,12 @@ function render(){
     scene.position.y = controls.positionY
 
     scene.traverse(function(node){
-        if ( node instanceof THREE.Mesh && node.name != "Matt"){
+        if ( node instanceof THREE.Mesh && node.name != "textMesh"){
             if (node.rotation.y > 0){
                 node.rotation.y += 0.1
             }
-            // node.rotation.y += controls.nodeRotationY
+        } else if (node.name === "textMesh"){
+            node.position.x = controls.text_position_x
         }
     })
 
@@ -172,8 +176,8 @@ function render(){
 init()
 function init(){
     createScene();
+    createText();
     createLights();
-    createNav();
     createPlaneGroup();
     render();
 }
@@ -181,42 +185,35 @@ function init(){
 
 // =============================================
 
-function createNav(){
-    // var options = {
-    //     size: 90,
-    //     height: 90,
-    //     weight: 'normal',
-    //     font: 'helvetiker',
-    //     style: 'normal',
-    //     bevelThickness: 2,
-    //     bevelSize: 4,
-    //     bevelSegments: 3,
-    //     bevelEnabled: true,
-    //     curveSegments: 12,
-    //     steps: 1
-    // };
+function createText(){
     var loader = new THREE.FontLoader();
+    var textMeshRef = textMesh
 
-    loader.load( './fonts/helvetiker_bold.typeface.js', function ( font ) {
+    loader.load( './fonts/helvetiker_bold.typeface.json', function ( font ) {
 
         var textGeo = new THREE.TextGeometry( "Matt Fewer", {
             font: font,
             size: 100,
-            height: 50,
-            curveSegments: 12,
-            bevelThickness: 2,
-            bevelSize: 3,
-            bevelEnabled: true
+            height: 20,
+            curveSegments: 1,
+            bevelThickness: 3,
+            bevelSize: 5,
+            bevelEnabled: true,
+            bevelSegments: 3
         } );
 
-        var textMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+        var textMaterial = new THREE.MeshPhongMaterial( {
+            specular: 0xffffff,
+            color: 0xeeffff,
+            shininess: 100
+        } );
 
-        var mesh = new THREE.Mesh( textGeo, textMaterial );
-        mesh.position.set( 0,0,-500 );
-        mesh.name = "Matt"
+        textMesh = new THREE.Mesh( textGeo, textMaterial );
+        textMesh.position.set( 0,200,-500 );
+        textMesh.name = "textMesh"
+        textMesh.receiveShadow = true
 
-        scene.add( mesh );
-
+        scene.add( textMesh );
     } );
 };
 
@@ -228,7 +225,12 @@ function onDocumentMouseDown(event) {
     var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
     var intersects = raycaster.intersectObjects(scene.children, true);
 
-    if (intersects.length > 0 && intersects[0].object.name != "Matt") {
+    if (intersects[0].object.rotation.y > 0){
+        intersects[0].object.rotation.y = 0
+        return
+    }
+
+    if (intersects.length > 0 && intersects[0].object.name != "textMesh") {
         console.log(intersects[0]);
         intersects[0].object.rotation.y += 0.1
         // intersects[1].object.rotation.y += 0.1
@@ -236,9 +238,19 @@ function onDocumentMouseDown(event) {
 }
 
 function createLights() {
+    // AMBIENT LIGHT
+
     var ambiColor = "#ffffff"
-    var ambientLight = new THREE.AmbientLight(ambiColor)
-    scene.add(ambientLight)
+    var ambientLight = new THREE.AmbientLight(ambiColor, 1)
+    // scene.add(ambientLight)
+
+    // POINT LIGHT
+
+    var pointColor = "#ffffff";
+    var pointLight = new THREE.PointLight(pointColor);
+    pointLight.position.set(10,10,10);
+    scene.add(pointLight);
+
 }
 
 function handleWindowResize() {
