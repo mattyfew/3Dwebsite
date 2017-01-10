@@ -5,10 +5,6 @@ var hemisphereLight, shadowLight;
 var text1, text2;
 var planeRotation = 0;
 
-// testing 123455678
-// blah
-// another test
-
 var mouse = { x: 0, y: 0 }, INTERSECTED;
 
 var loader = new THREE.TextureLoader();
