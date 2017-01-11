@@ -66,8 +66,12 @@ function createScene(){
 
     trackballControls = new THREE.TrackballControls(camera)
     trackballControls.rotateSpeed = 0.2
-    trackballControls.zoomSpeed = 0.1
-    trackballControls.panSpeed = 0.1
+    trackballControls.zoomSpeed = 0.5
+    trackballControls.panSpeed = 0.9
+
+    trackballControls.noRotate = false;
+    trackballControls.noZoom = false;
+    trackballControls.staticMoving = true;
 
 
     // DAT.GUI
@@ -260,8 +264,8 @@ function onDocumentMouseDown(event) {
             targetPosition = {
                 x: camera.position.x,
                 y: camera.position.y,
-                z: 90,
-                rot: 180
+                z: camera.position.z - 20,
+                rot: camera.rotation._y + 180
             }
 
             var tween = new TWEEN.Tween(currentPosition).to(targetPosition, 2000)
