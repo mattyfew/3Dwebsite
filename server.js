@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const fs = requrie('fs')
 
 app.set('port', process.env.PORT || 8080);
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static('./public'));
 
 app.disable('x-powered-by');
 
