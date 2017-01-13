@@ -99,11 +99,7 @@ function render(){
     scene.position.y = controls.positionY
 
     scene.traverse(function(node){
-        if ( node instanceof THREE.Mesh && node.name != "textMesh"){
-            if (node.rotation.y > 0){
-                // node.rotation.y += 0.1
-            }
-        } else if (node.name === "textMesh"){
+        if (node.name === "textMesh"){
             node.position.x = controls.text_position_x
         }
     })
@@ -129,10 +125,14 @@ function init(){
 // =============================================
 
 function createText(){
+
     var loader = new THREE.FontLoader();
     var textMeshRef = textMesh
 
     loader.load( './fonts/helvetiker_bold.typeface.json', function ( font ) {
+
+        // HEADER
+        // =============================================
 
         var textGeo = new THREE.TextGeometry( "Matt Fewer", {
             font: font,
@@ -157,19 +157,49 @@ function createText(){
         textMesh.receiveShadow = true
 
         scene.add( textMesh );
+
+
+        // NAVIGATION
+        // =============================================
+
+        var textGeo = new THREE.TextGeometry( "About Me", {
+            font: font,
+            size: 20,
+            height: 10,
+            curveSegments: 1,
+            bevelThickness: 1,
+            bevelSize: 3,
+            bevelEnabled: true,
+            bevelSegments: 3
+        } );
+
+        var textMaterial = new THREE.MeshPhongMaterial( {
+            specular: 0xffffff,
+            color: 0xeeffff,
+            shininess: 100
+        } );
+
+        textMesh = new THREE.Mesh( textGeo, textMaterial );
+        textMesh.position.set( -400,0,-500 );
+        textMesh.name = "navMesh"
+        textMesh.receiveShadow = true
+        textMesh.rotation.order = "ZXY"
+        console.log(textMesh.rotation);
+
+        scene.add( textMesh );
     } );
 };
 
 function createPlane(x,y,name,img_path) {
 
     var planeGeo = new THREE.PlaneGeometry(20, 10);
-    var planeMaterial = new THREE.MeshNormalMaterial();
-    planeMaterial.side = THREE.DoubleSide;
 
     var material = new THREE.MeshBasicMaterial({
         map: new THREE.TextureLoader().load(img_path, function(texture){})
     });
     material.side = THREE.DoubleSide
+
+
 
     var mesh = new THREE.Mesh(planeGeo, material)
     mesh.name = name
@@ -178,7 +208,6 @@ function createPlane(x,y,name,img_path) {
     scene.add(mesh)
     planeGroup.add(mesh)
 }
-
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
@@ -212,7 +241,21 @@ function createPlaneGroup(){
 
     scene.add(planeGroup);
 }
+function createLights() {
+    // AMBIENT LIGHT
 
+    var ambiColor = "#ffffff"
+    var ambientLight = new THREE.AmbientLight(ambiColor, 1)
+    // scene.add(ambientLight)
+
+    // POINT LIGHT
+
+    var pointColor = "#ffffff";
+    var pointLight = new THREE.PointLight(pointColor);
+    pointLight.position.set(10,10,10);
+    scene.add(pointLight);
+
+}
 
 function onDocumentMouseDown(event) {
     var vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
@@ -220,8 +263,13 @@ function onDocumentMouseDown(event) {
     var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
     var intersects = raycaster.intersectObjects(scene.children, true);
 
+
+    // PORTFOLIO PLANE FLIP TWEEN
+    // =============================================
+
     var targetPosition, currentPosition;
-    if (intersects.length > 0 && intersects[0].object.name != "textMesh") {
+    if (intersects.length > 0 && intersects[0].object.name != "textMesh" && intersects[0].object.name != "navMesh") {
+
 
         // TWEENBACK
         // =============================================
@@ -232,7 +280,7 @@ function onDocumentMouseDown(event) {
                 x: intersects[0].object.position.x,
                 y: intersects[0].object.position.y,
                 z: intersects[0].object.position.z,
-                rot: 180
+                rot: 360
             }
             console.log(currentPosition);
 
@@ -244,6 +292,7 @@ function onDocumentMouseDown(event) {
                     intersects[0].object.position.z = currentPosition.z
                 })
             tweenBack.start()
+
 
         // TWEEN
         // =============================================
@@ -265,7 +314,7 @@ function onDocumentMouseDown(event) {
                 x: camera.position.x,
                 y: camera.position.y,
                 z: camera.position.z - 20,
-                rot: camera.rotation._y + 180
+                rot: camera.rotation._y + 360
             }
 
             var tween = new TWEEN.Tween(currentPosition).to(targetPosition, 2000)
@@ -277,25 +326,19 @@ function onDocumentMouseDown(event) {
                 })
             tween.start()
         }
+
+
+    // NAVIGATION
+    // =============================================
+
+} else if (intersects[0].object.name === "navMesh") {
+        console.log(intersects[0].object.name + " selected");
+
+        // intersects[0].object.position.x = 180;
+
+        // camera.position.x = -100
     }
 }
-
-function createLights() {
-    // AMBIENT LIGHT
-
-    var ambiColor = "#ffffff"
-    var ambientLight = new THREE.AmbientLight(ambiColor, 1)
-    // scene.add(ambientLight)
-
-    // POINT LIGHT
-
-    var pointColor = "#ffffff";
-    var pointLight = new THREE.PointLight(pointColor);
-    pointLight.position.set(10,10,10);
-    scene.add(pointLight);
-
-}
-
 function handleWindowResize() {
 	// update height and width of the renderer and the camera
 	HEIGHT = window.innerHeight;
