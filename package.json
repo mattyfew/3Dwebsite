@@ -1,0 +1,28 @@
+{
+  "name": "threejswebsite",
+  "version": "1.0.0",
+  "description": "3D version of my site",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "three.regular.helvetiker": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattyfew/3Dwebsite.git"
+  },
+  "keywords": [
+    "threejs"
+  ],
+  "author": "Matt Fewer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattyfew/3Dwebsite/issues"
+  },
+  "homepage": "https://github.com/mattyfew/3Dwebsite#readme"
+}
