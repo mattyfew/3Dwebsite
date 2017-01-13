@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const fs = requrie('fs')
+const fs = require('fs')
+
+console.log(fs.exists('./public'));
 
 app.set('port', process.env.PORT || 8080);
 app.use('/static', express.static('./public'));
