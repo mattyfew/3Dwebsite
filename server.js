@@ -3,9 +3,8 @@ const path = require('path');
 const app = express();
 const fs = require('fs')
 
-fs.exists('./public', console.log);
-console.log(__dirname);
-
+// fs.exists('./public', console.log);
+// console.log(__dirname);
 
 app.set('port', process.env.PORT || 8080);
 app.use(express.static('./public'));
