@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 
 app.set('port', process.env.PORT || 8080);
-app.use('/static', express.static(path.join('./public')));
+app.use('/static', express.static('./public'));
 
 app.disable('x-powered-by');
 
