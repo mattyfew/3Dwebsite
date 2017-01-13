@@ -48,7 +48,7 @@ function createScene(){
     // var axes = new THREE.AxisHelper(100);
     // scene.add(axes);
 
-    var imagePrefix = "/static/img/";
+    var imagePrefix = "/public/img/";
     var urls = [
         `space.jpg`,
         `space.jpg`,
@@ -71,7 +71,7 @@ function createScene(){
 
     trackballControls.noRotate = false;
     trackballControls.noZoom = false;
-    trackballControls.staticMoving = true;
+    trackballControls.publicMoving = true;
 
 
     // DAT.GUI
@@ -129,7 +129,7 @@ function createText(){
     var loader = new THREE.FontLoader();
     var textMeshRef = textMesh
 
-    loader.load( '/static/fonts/helvetiker_bold.typeface.json', function ( font ) {
+    loader.load( '/public/fonts/helvetiker_bold.typeface.json', function ( font ) {
 
         // HEADER
         // =============================================
@@ -211,33 +211,33 @@ function createPlane(x,y,name,img_path) {
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
-    createPlane(-25, 20, "plane1", "/static/img/websites/advanced_cosmetic_dentistry.png")
-    createPlane(0, 20, "plane2", "/static/img/websites/rexmenu.png")
-    createPlane(25, 20, "plane3", "/static/img/websites/dr_maieve.png")
+    createPlane(-25, 20, "plane1", "/public/img/websites/advanced_cosmetic_dentistry.png")
+    createPlane(0, 20, "plane2", "/public/img/websites/rexmenu.png")
+    createPlane(25, 20, "plane3", "/public/img/websites/dr_maieve.png")
 
-    createPlane(-25, 0, "plane3", "/static/img/websites/dr_alison_black.png")
-    createPlane(0, 0, "plane5", "/static/img/websites/atlas_vein.png")
-    createPlane(25, 0, "plane6", "/static/img/websites/galleria.png")
+    createPlane(-25, 0, "plane3", "/public/img/websites/dr_alison_black.png")
+    createPlane(0, 0, "plane5", "/public/img/websites/atlas_vein.png")
+    createPlane(25, 0, "plane6", "/public/img/websites/galleria.png")
 
-    createPlane(-25, -20, "plane7", "/static/img/websites/priest_dental.png")
-    createPlane(0, -20, "plane8", "/static/img/websites/retinal_san_antonio.png")
-    createPlane(25, -20, "plane9", "/static/img/websites/schlessinger.png")
+    createPlane(-25, -20, "plane7", "/public/img/websites/priest_dental.png")
+    createPlane(0, -20, "plane8", "/public/img/websites/retinal_san_antonio.png")
+    createPlane(25, -20, "plane9", "/public/img/websites/schlessinger.png")
 
-    createPlane(-25, -40, "plane10", "/static/img/websites/static_home.png")
-    createPlane(0, -40, "plane11", "/static/img/websites/tsrh_home.png")
-    createPlane(25, -40, "plane12", "/static/img/websites/urogynecology_center.png")
+    createPlane(-25, -40, "plane10", "/public/img/websites/static_home.png")
+    createPlane(0, -40, "plane11", "/public/img/websites/tsrh_home.png")
+    createPlane(25, -40, "plane12", "/public/img/websites/urogynecology_center.png")
 
-    createPlane(-25, -60, "plane13", "/static/img/websites/gentle_dental.png")
-    createPlane(0, -60, "plane14", "/static/img/websites/mcdowell.png")
-    createPlane(25, -60, "plane15", "/static/img/websites/dental_phobia.png")
+    createPlane(-25, -60, "plane13", "/public/img/websites/gentle_dental.png")
+    createPlane(0, -60, "plane14", "/public/img/websites/mcdowell.png")
+    createPlane(25, -60, "plane15", "/public/img/websites/dental_phobia.png")
 
-    createPlane(-25, -80, "plane16", "/static/img/websites/belcor_builders.png")
-    createPlane(0, -80, "plane17", "/static/img/websites/eye_surgery_center.png")
-    createPlane(25, -80, "plane18", "/static/img/websites/centerderm.png")
+    createPlane(-25, -80, "plane16", "/public/img/websites/belcor_builders.png")
+    createPlane(0, -80, "plane17", "/public/img/websites/eye_surgery_center.png")
+    createPlane(25, -80, "plane18", "/public/img/websites/centerderm.png")
 
-    createPlane(-25, -100, "plane19", "/static/img/websites/smiles_4_a_lifetime.png")
-    createPlane(0, -100, "plane20", "/static/img/websites/tennessee_vein.png")
-    createPlane(25, -100, "plane21", "/static/img/websites/the_vein_clinic.png")
+    createPlane(-25, -100, "plane19", "/public/img/websites/smiles_4_a_lifetime.png")
+    createPlane(0, -100, "plane20", "/public/img/websites/tennessee_vein.png")
+    createPlane(25, -100, "plane21", "/public/img/websites/the_vein_clinic.png")
 
     scene.add(planeGroup);
 }
