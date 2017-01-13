@@ -7,7 +7,7 @@ const fs = require('fs')
 // console.log(__dirname);
 
 app.set('port', process.env.PORT || 8080);
-app.use(express.static('./public'));
+app.use(express.static('public'));
 
 app.disable('x-powered-by');
 
