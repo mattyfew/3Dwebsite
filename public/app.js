@@ -2,7 +2,7 @@ var camera, scene, renderer, container;
 var controls, trackballControls;
 var group, planeGroup, texture;
 var hemisphereLight, shadowLight;
-var textMesh;
+var textMesh, textMesh2, textPivot;
 var planeRotation = 0;
 
 var mouse = { x: 0, y: 0 }, INTERSECTED;
@@ -66,8 +66,8 @@ function createScene(){
 
     trackballControls = new THREE.TrackballControls(camera)
     trackballControls.rotateSpeed = 0.2
-    trackballControls.zoomSpeed = 0.5
-    trackballControls.panSpeed = 0.9
+    trackballControls.zoomSpeed = 0.3
+    trackballControls.panSpeed = 0.3
 
     trackballControls.noRotate = false;
     trackballControls.noZoom = false;
@@ -80,15 +80,21 @@ function createScene(){
     controls = new function(){
         this.positionX = 0
         this.positionY = 0
-        this.nodeRotationY = 0.02
-        this.text_position_x = -350
+
+        this.textPivotPosX = -65
+        this.textPivotPosY = 5
+        this.textPivotPosZ = 0
     }
 
     var gui = new dat.GUI();
     gui.add(controls, 'positionX', -20, 20)
     gui.add(controls, 'positionY', -20, 20)
-    gui.add(controls, 'nodeRotationY', 0.01, 0.09)
-    gui.add(controls, 'text_position_x', -600, 600)
+
+    var f1 = gui.addFolder('text')
+    f1.add(controls, 'textPivotPosX', -600, 600)
+    f1.add(controls, 'textPivotPosY', -600, 600)
+    f1.add(controls, 'textPivotPosZ', -600, 600)
+    f1.open()
 }
 
 // RENDER
@@ -99,8 +105,10 @@ function render(){
     scene.position.y = controls.positionY
 
     scene.traverse(function(node){
-        if (node.name === "textMesh"){
-            node.position.x = controls.text_position_x
+        if (node.name === "textPivot"){
+            node.position.x = controls.textPivotPosX
+            node.position.y = controls.textPivotPosY
+            node.position.z = controls.textPivotPosZ
         }
     })
 
@@ -121,72 +129,56 @@ function init(){
     render();
 }
 
-
 // =============================================
 
 function createText(){
 
     var loader = new THREE.FontLoader();
-    var textMeshRef = textMesh
 
-    loader.load( '/fonts/helvetiker_bold.typeface.json', function ( font ) {
+    loader.load( '/fonts/optimer_regular.typeface.json', function ( font ) {
+        textPivot = new THREE.Object3D();
+        textPivot.name = "textPivot"
+        textPivot.position.x = -65
+        textPivot.position.y = 5
+        textPivot.position.z = 0
 
-        // HEADER
-        // =============================================
-
-        var textGeo = new THREE.TextGeometry( "Matt Fewer", {
+        var options = {
             font: font,
-            size: 100,
-            height: 20,
-            curveSegments: 1,
-            bevelThickness: 3,
-            bevelSize: 5,
-            bevelEnabled: true,
-            bevelSegments: 3
-        } );
-
-        var textMaterial = new THREE.MeshPhongMaterial( {
-            specular: 0xffffff,
-            color: 0xeeffff,
-            shininess: 100
-        } );
-
-        textMesh = new THREE.Mesh( textGeo, textMaterial );
-        textMesh.position.set( 0,200,-500 );
-        textMesh.name = "textMesh"
-        textMesh.receiveShadow = true
-
-        scene.add( textMesh );
-
-
-        // NAVIGATION
-        // =============================================
-
-        var textGeo = new THREE.TextGeometry( "About Me", {
-            font: font,
-            size: 20,
-            height: 10,
-            curveSegments: 1,
+            size: 10,
+            height: 1,
+            curveSegments: 15,
             bevelThickness: 1,
-            bevelSize: 3,
+            bevelSize: 1,
             bevelEnabled: true,
-            bevelSegments: 3
-        } );
+            bevelSegments: 15
+        }
+
+        var textGeo = new THREE.TextGeometry( "Hello! I'm Matt Fewer.", options);
 
         var textMaterial = new THREE.MeshPhongMaterial( {
-            specular: 0xffffff,
-            color: 0xeeffff,
+            specular: 0x53167d,
+            color: 0x53167d,
             shininess: 100
         } );
 
         textMesh = new THREE.Mesh( textGeo, textMaterial );
-        textMesh.position.set( -400,0,-500 );
-        textMesh.name = "navMesh"
+        textMesh.position.set( 0,0,0 );
+        textMesh.name = "first_line"
         textMesh.receiveShadow = true
-        textMesh.rotation.order = "ZXY"
-        console.log(textMesh.rotation);
 
-        scene.add( textMesh );
+        textPivot.add(textMesh)
+        scene.add(textPivot)
+
+        // SECOND LINE
+        // =============================================
+
+        textGeo = new THREE.TextGeometry( "I like to build websites.", options);
+
+        textMesh2 = new THREE.Mesh( textGeo, textMaterial );
+        textMesh2.position.set( 0,-30,0 );
+        textMesh2.name = "second_line"
+        textMesh2.receiveShadow = true
+        textPivot.add(textMesh2)
     } );
 };
 
@@ -208,36 +200,37 @@ function createPlane(x,y,name,img_path) {
     scene.add(mesh)
     planeGroup.add(mesh)
 }
+
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
-    createPlane(-25, 20, "plane1", "/img/websites/advanced_cosmetic_dentistry.png")
-    createPlane(0, 20, "plane2", "/img/websites/rexmenu.png")
-    createPlane(25, 20, "plane3", "/img/websites/dr_maieve.png")
+    createPlane(-25, -20, "plane1", "/img/websites/advanced_cosmetic_dentistry.jpg")
+    createPlane(0, -20, "plane2", "/img/websites/rexmenu.jpg")
+    createPlane(25, -20, "plane3", "/img/websites/dr_maieve.jpg")
 
-    createPlane(-25, 0, "plane3", "/img/websites/dr_alison_black.png")
-    createPlane(0, 0, "plane5", "/img/websites/atlas_vein.png")
-    createPlane(25, 0, "plane6", "/img/websites/galleria.png")
+    createPlane(-25, -40, "plane3", "/img/websites/dr_alison_black.jpg")
+    createPlane(0, -40, "plane5", "/img/websites/atlas_vein.jpg")
+    createPlane(25, -40, "plane6", "/img/websites/galleria.jpg")
 
-    createPlane(-25, -20, "plane7", "/img/websites/priest_dental.png")
-    createPlane(0, -20, "plane8", "/img/websites/retinal_san_antonio.png")
-    createPlane(25, -20, "plane9", "/img/websites/schlessinger.png")
+    createPlane(-25, -60, "plane7", "/img/websites/priest_dental.jpg")
+    createPlane(0, -60, "plane8", "/img/websites/retinal_san_antonio.jpg")
+    createPlane(25, -60, "plane9", "/img/websites/schlessinger.jpg")
 
-    createPlane(-25, -40, "plane10", "/img/websites/static_home.png")
-    createPlane(0, -40, "plane11", "/img/websites/tsrh_home.png")
-    createPlane(25, -40, "plane12", "/img/websites/urogynecology_center.png")
+    createPlane(-25, -80, "plane10", "/img/websites/static_home.jpg")
+    createPlane(0, -80, "plane11", "/img/websites/tsrh_home.jpg")
+    createPlane(25, -80, "plane12", "/img/websites/urogynecology_center.jpg")
 
-    createPlane(-25, -60, "plane13", "/img/websites/gentle_dental.png")
-    createPlane(0, -60, "plane14", "/img/websites/mcdowell.png")
-    createPlane(25, -60, "plane15", "/img/websites/dental_phobia.png")
+    createPlane(-25, -100, "plane13", "/img/websites/gentle_dental.jpg")
+    createPlane(0, -100, "plane14", "/img/websites/mcdowell.jpg")
+    createPlane(25, -100, "plane15", "/img/websites/dental_phobia.jpg")
 
-    createPlane(-25, -80, "plane16", "/img/websites/belcor_builders.png")
-    createPlane(0, -80, "plane17", "/img/websites/eye_surgery_center.png")
-    createPlane(25, -80, "plane18", "/img/websites/centerderm.png")
+    createPlane(-25, -120, "plane16", "/img/websites/belcor_builders.jpg")
+    createPlane(0, -120, "plane17", "/img/websites/eye_surgery_center.jpg")
+    createPlane(25, -120, "plane18", "/img/websites/centerderm.jpg")
 
-    createPlane(-25, -100, "plane19", "/img/websites/smiles_4_a_lifetime.png")
-    createPlane(0, -100, "plane20", "/img/websites/tennessee_vein.png")
-    createPlane(25, -100, "plane21", "/img/websites/the_vein_clinic.png")
+    createPlane(-25, -140, "plane19", "/img/websites/smiles_4_a_lifetime.jpg")
+    createPlane(0, -140, "plane20", "/img/websites/tennessee_vein.jpg")
+    createPlane(25, -140, "plane21", "/img/websites/the_vein_clinic.jpg")
 
     scene.add(planeGroup);
 }
@@ -268,7 +261,7 @@ function onDocumentMouseDown(event) {
     // =============================================
 
     var targetPosition, currentPosition;
-    if (intersects.length > 0 && intersects[0].object.name != "textMesh" && intersects[0].object.name != "navMesh") {
+    if (intersects.length > 0 && intersects[0].object.name != "second_line" && intersects[0].object.name != "first_line") {
 
 
         // TWEENBACK
@@ -313,7 +306,7 @@ function onDocumentMouseDown(event) {
             targetPosition = {
                 x: camera.position.x,
                 y: camera.position.y,
-                z: camera.position.z - 20,
+                z: camera.position.z - 10,
                 rot: camera.rotation._y + 360
             }
 
@@ -331,7 +324,7 @@ function onDocumentMouseDown(event) {
     // NAVIGATION
     // =============================================
 
-} else if (intersects[0].object.name === "navMesh") {
+    } else if (intersects[0].object.name === "navMesh") {
         console.log(intersects[0].object.name + " selected");
 
         // intersects[0].object.position.x = 180;
