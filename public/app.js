@@ -1,6 +1,6 @@
 var camera, scene, renderer, container;
 var datControls, controls;
-var group, planeGroup, texture;
+var group, planeGroup, texture, youtube;
 var hemisphereLight, shadowLight;
 var textMesh, textMesh2, textPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
@@ -10,7 +10,30 @@ var mouse = { x: 0, y: 0 }, INTERSECTED;
 
 var loader = new THREE.TextureLoader();
 var clock = new THREE.Clock()
+var YoutubePlane = function (id, x, y, z, ry) {
+    var element = document.createElement('div');
+    var width = '500px'
+    var height = '400px'
 
+    element.style.width = width;
+    element.style.height = height;
+    element.style.backgroundColor = '#ffffff';
+    element.className = 'three-div';
+
+    var iframe = document.createElement('iframe');
+    iframe.style.width = width;
+    iframe.style.height = height;
+    iframe.style.border = '0px';
+    iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('');
+    element.appendChild(iframe);
+
+    var div = new THREE.CSS3DObject(element);
+    div.position.set(x, y, z);
+    div.rotation.y = ry;
+    div.name = "youtube"
+
+    return div;
+}
 function render(){
     // scene.position.x = datControls.positionX
     // scene.position.y = datControls.positionY
@@ -22,18 +45,17 @@ function render(){
     //         node.position.z = datControls.textPivotPosZ
     //     }
     // })
-
-    buttonPivot.rotation.y += 0.1
-    TWEEN.update()
-
     // if(runClickTweens === true){
     //     runTweens()
     // }
 
+    requestAnimationFrame(render);
+    buttonPivot.rotation.y += 0.1
+    TWEEN.update()
     renderer.render(scene, camera);
+    renderer2.render(scene2, camera);
     var delta = clock.getDelta()
     controls.update(delta)
-    requestAnimationFrame(render);
 }
 
 init()
@@ -52,13 +74,29 @@ function createScene(){
     HEIGHT = window.innerHeight;
     WIDTH = window.innerWidth;
 
-    renderer = new THREE.WebGLRenderer();
+    // RENDERER #1
+
+    renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize( WIDTH, HEIGHT );
     renderer.shadowMap.enabled = true;
+    renderer.domElement.style.zIndex = 1000;
 
-    renderer.setClearColor(0x3399ff);
+    container.appendChild(renderer.domElement)
 
+    // RENDERER #2 - CSS3D
+
+    renderer2 = new THREE.CSS3DRenderer();
+    renderer2.setSize(window.innerWidth, window.innerHeight);
+    renderer2.domElement.style.position = 'absolute';
+    renderer2.domElement.style.top = 0;
+    container.appendChild(renderer2.domElement);
+
+    scene2 = new THREE.Scene();
     scene = new THREE.Scene();
+
+    youtube = new YoutubePlane('sWqsgEYNii4', 0, -200, -100, 0)
+    youtube.scale.set(0.2, 0.2, 0.2)
+    scene2.add(youtube); // Crush
 
     // CAMERAS
     // =============================================
@@ -70,8 +108,6 @@ function createScene(){
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
     camera.position.set(0,0,100)
-
-    container.appendChild(renderer.domElement)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -140,6 +176,7 @@ function createScene(){
     // f1.add(datControls, 'textPivotPosY', -600, 600)
     // f1.add(datControls, 'textPivotPosZ', -600, 600)
     // f1.open()
+
 }
 
 // =============================================
@@ -192,7 +229,6 @@ function createText(){
         textPivot.add(textMesh2)
     } );
 };
-
 function createTorus(){
 
     buttonPivot = new THREE.Object3D();
@@ -243,7 +279,6 @@ function createTorus(){
     buttonPivot.add(torusMesh)
     scene.add(buttonPivot)
 }
-
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
@@ -474,3 +509,4 @@ function runTweens(){
         tween2.start()
     tween1.start()
 }
+//
