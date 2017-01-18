@@ -94,8 +94,8 @@ function createScene(){
     scene2 = new THREE.Scene();
     scene = new THREE.Scene();
 
-    youtube = new YoutubePlane('sWqsgEYNii4', 0, -200, -100, 0)
-    youtube.scale.set(0.2, 0.2, 0.2)
+    youtube = new YoutubePlane('sWqsgEYNii4', 0, -250, 0, 0)
+    youtube.scale.set(0.1, 0.1, 0.1)
     scene2.add(youtube); // Crush
 
     // CAMERAS
