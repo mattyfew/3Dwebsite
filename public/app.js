@@ -1,36 +1,51 @@
 var camera, scene, renderer, container;
 var datControls, controls;
 var group, planeGroup, texture, youtube;
-var hemisphereLight, shadowLight;
-var textMesh, textMesh2, textPivot;
+var textMesh, textMesh2, textPivot, textMesh3, contactButton, contactPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
-var planeRotation = 0;
 
-var mouse = { x: 0, y: 0 }, INTERSECTED;
+var mouse = { x: 0, y: 0 }, INTERSECTED
 
-var loader = new THREE.TextureLoader();
+var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var YoutubePlane = function (id, x, y, z, ry) {
-    var element = document.createElement('div');
+    var element = document.createElement('div')
     var width = '500px'
     var height = '400px'
 
     element.style.width = width;
     element.style.height = height;
-    element.style.backgroundColor = '#ffffff';
-    element.className = 'three-div';
+    element.style.backgroundColor = '#ffffff'
+    element.className = 'three-div'
 
-    var iframe = document.createElement('iframe');
-    iframe.style.width = width;
-    iframe.style.height = height;
-    iframe.style.border = '0px';
-    iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('');
-    element.appendChild(iframe);
+    var iframe = document.createElement('iframe')
+    iframe.style.width = width
+    iframe.style.height = height
+    iframe.style.border = '0px'
+    iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('')
+    element.appendChild(iframe)
 
-    var div = new THREE.CSS3DObject(element);
-    div.position.set(x, y, z);
-    div.rotation.y = ry;
+    var div = new THREE.CSS3DObject(element)
+    div.position.set(x, y, z)
+    div.rotation.y = ry
     div.name = "youtube"
+
+    return div;
+}
+var ContactButton = function () {
+    var element = document.createElement('div')
+    var width = '500px'
+    var height = '150px'
+
+    element.style.width = width;
+    element.style.height = height;
+    element.style.backgroundColor = '#FF6900'
+    element.className = 'contact-button'
+    element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">Email me!</a>';
+
+    var div = new THREE.CSS3DObject(element)
+    div.position.set(0,-330,0)
+    div.name = "contactButton"
 
     return div;
 }
@@ -94,12 +109,15 @@ function createScene(){
     scene2 = new THREE.Scene();
     scene = new THREE.Scene();
 
-    youtube = new YoutubePlane('sWqsgEYNii4', 0, -250, 0, 0)
+    youtube = new YoutubePlane('kJvrgyHXrMo', 0, -250, 0, 0) // The Monster
     youtube.scale.set(0.1, 0.1, 0.1)
-    scene2.add(youtube); // Crush
+    scene2.add(youtube)
 
-    // CAMERAS
-    // =============================================
+    contactButton = new ContactButton()
+    contactButton.scale.set(0.1, 0.1, 0.1)
+    scene2.add(contactButton)
+
+    // CAMERA
 
     aspectRatio = WIDTH / HEIGHT;
     fieldOfView = 60;
@@ -107,17 +125,12 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,0,100)
+    camera.position.set(0,-315,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
 
-
     // SKYBOX
-    // =============================================
-
-    // var axes = new THREE.AxisHelper(100);
-    // scene.add(axes);
 
     var imagePrefix = "/img/";
     var urls = [
@@ -133,7 +146,6 @@ function createScene(){
 
     /*
     // TRACKBALL CONTROLS
-    // =============================================
 
     trackballControls = new THREE.TrackballControls(camera)
     trackballControls.rotateSpeed = 0.2
@@ -146,7 +158,6 @@ function createScene(){
     */
 
     // FLYCONTROLS
-    // =============================================
 
     controls = new THREE.FlyControls(camera)
     controls.movementSpeed = 35;
@@ -183,11 +194,17 @@ function createScene(){
 
 function createText(){
 
-    var loader = new THREE.FontLoader();
     textPivot = new THREE.Object3D();
     textPivot.name = "textPivot"
     textPivot.position.set(-65 ,5 ,0)
 
+    contactPivot = new THREE.Object3D();
+    contactPivot.name = "contactPivot"
+    contactPivot.position.set(0 ,-300 ,0)
+
+    console.log(contactPivot);
+
+    var loader = new THREE.FontLoader();
     var textMaterial = new THREE.MeshPhongMaterial( {
         specular: 0x53167d,
         color: 0x53167d,
@@ -208,32 +225,54 @@ function createText(){
     loader.load( '/fonts/optimer_regular.typeface.json', function ( font ) {
         options.font = font;
 
+        // FIRST LINE
+
         var textGeo = new THREE.TextGeometry( "Hello! I'm Matt Fewer.", options);
         textMesh = new THREE.Mesh( textGeo, textMaterial );
         textMesh.position.set( 0,0,0 );
         textMesh.name = "first_line"
         textMesh.receiveShadow = true
-
         textPivot.add(textMesh)
-        scene.add(textPivot)
 
         // SECOND LINE
-        // =============================================
-        textGeo = new THREE.TextGeometry( "I like to build websites.", options);
 
+        textGeo = new THREE.TextGeometry( "I like to build websites.", options);
 
         textMesh2 = new THREE.Mesh( textGeo, textMaterial );
         textMesh2.position.set( 0,-30,0 );
         textMesh2.name = "second_line"
         textMesh2.receiveShadow = true
         textPivot.add(textMesh2)
+
+        scene.add(textPivot)
     } );
+
+    loader.load( '/fonts/optimer_regular.typeface.json', function ( font ) {
+        options.font = font;
+
+        // THIRD LINE
+
+        textGeo = new THREE.TextGeometry( "Let's talk!", options);
+
+        textMesh3 = new THREE.Mesh( textGeo, textMaterial );
+        // textMesh3.position.set( -28,-320,0 );
+        textMesh3.position.set( 0,0,0 );
+
+        textMesh3.name = "third_line"
+        textMesh3.receiveShadow = true
+
+        contactPivot.add(textMesh3)
+
+        scene.add(contactPivot)
+        // scene.add(textMesh3)
+    })
+
 };
 function createTorus(){
 
     buttonPivot = new THREE.Object3D();
     buttonPivot.name = "buttonPivot"
-    buttonPivot.position.set(0, -40, 0)
+    buttonPivot.position.set(0, -30, 0)
 
     // ARROW
 
@@ -347,7 +386,7 @@ function createLights() {
     scene.add(pointLight);
     */
 
-    // SPOTLIGHT
+    // SPOTLIGHT #1
 
     var pointColor = "#ffffff";
     var spotLight = new THREE.SpotLight(pointColor);
@@ -359,9 +398,16 @@ function createLights() {
     spotLight.target = target;
     scene.add(spotLight);
 
+    // SPOTLIGHT #2
 
+    spotLight2 = new THREE.SpotLight(pointColor);
+    spotLight2.position.set(0,-360,90);
+    spotLight2.castShadow = true;
 
-
+    var target = new THREE.Object3D();
+    target.position = new THREE.Vector3(5, -330, 0);
+    spotLight2.target = target;
+    scene.add(spotLight2);
 }
 
 function onDocumentMouseDown(event) {
@@ -389,11 +435,15 @@ function onDocumentMouseDown(event) {
             }
 
             var tweenBack = new TWEEN.Tween(currentPosition).to(firstPosition, 1000)
-                .easing(TWEEN.Easing.Exponential.Out).onUpdate( function () {
+                .easing(TWEEN.Easing.Exponential.Out)
+                .onUpdate( function () {
                     intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
                     intersects[0].object.position.x = currentPosition.x
                     intersects[0].object.position.y = currentPosition.y
                     intersects[0].object.position.z = currentPosition.z
+                })
+                .onComplete( function() {
+                    youtube.scale.set(0.1,0.1,0.1)
                 })
             tweenBack.start()
 
@@ -426,31 +476,16 @@ function onDocumentMouseDown(event) {
                     console.log(camCurrentPosition);
                 })
                 .onUpdate( function () {
-                    // intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
-                    // intersects[0].object.position.x = currentPosition.x
-                    // intersects[0].object.position.y = currentPosition.y
-                    // intersects[0].object.position.z = currentPosition.z
-
+                    youtube.scale.set(0,0,0);
                     intersects[0].object.rotation.y = (camCurrentPosition.rot * Math.PI)/180
                     intersects[0].object.position.x = camCurrentPosition.x
                     intersects[0].object.position.y = camCurrentPosition.y
                     intersects[0].object.position.z = camCurrentPosition.z
-
-                    // console.log(intersects[0].object.position);
-                    // console.log(camCurrentPosition);
-
-                })
-            tween.start()
+                }).start();
         }
 
-
-    // NAVIGATION
-    // =============================================
-
     } else if (intersects.length > 0 && ( intersects[0].object.name === "torusMesh" || intersects[0].object.name === "arrowMesh" )) {
-
         runClickTweens = true
-
     }
 }
 function handleWindowResize() {
@@ -474,39 +509,16 @@ function runTweens(){
         .easing(TWEEN.Easing.Exponential.Out)
         .onUpdate(function () {
             trackballControls.target.set(theTarget.position);
-            // camera.lookAt(theTarget);
-            // camera.target.position.copy( theTarget );
-            // camera.updateProjectionMatrix();
-
-        })
-        // .onComplete(function () {
-        //     // camera.lookAt(theTarget);
-        //     // camera.target.position.copy( theTarget );
-        //     // camera.updateProjectionMatrix();
-        // })
+        }).start();
 
     var tween2 = new TWEEN.Tween(trackballControls.target).to({
         y: -140}, 5000)
         .easing(TWEEN.Easing.Exponential.Out)
         .onUpdate(function () {
-            // console.log(trackballControls.target)
             trackballControls.target.set(theTarget.position);
-
-            // camera.lookAt(theTarget);
-            // camera.target.position.copy( theTarget );
-            // camera.updateProjectionMatrix();
         })
         .onComplete(function () {
             trackballControls.reset()
-
-        //     // camera.lookAt(theTarget);
-        //     // camera.target.position.copy( theTarget );
-        //     // camera.updateProjectionMatrix();
-        //     console.log("complete");
         //     runClickTweens = false
-        })
-
-        tween2.start()
-    tween1.start()
+        }).start();
 }
-//
