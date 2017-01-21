@@ -3,6 +3,7 @@ var datControls, controls;
 var group, planeGroup, texture, youtube;
 var textMesh, textMesh2, textPivot, textMesh3, contactButton, contactPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
+var earthMesh;
 
 var mouse = { x: 0, y: 0 }, INTERSECTED
 
@@ -34,12 +35,14 @@ var YoutubePlane = function (id, x, y, z, ry) {
 }
 var ContactButton = function () {
     var element = document.createElement('div')
-    var width = '500px'
-    var height = '150px'
+    var width = '400px'
+    var height = '100px'
 
-    element.style.width = width;
-    element.style.height = height;
-    element.style.backgroundColor = '#FF6900'
+    // element.style.width = 'auto';
+    // element.style.height = '100%';
+    element.style.padding = '0';
+    element.style.backgroundColor = '#131FAD'
+    element.style.borderRadius = 25 + "px"
     element.className = 'contact-button'
     element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">Email me!</a>';
 
@@ -49,6 +52,21 @@ var ContactButton = function () {
 
     return div;
 }
+var Planet = function(path, name) {
+    var geometry   = new THREE.SphereGeometry(20, 32, 32)
+    var material  = new THREE.MeshPhongMaterial()
+    material.map    = THREE.ImageUtils.loadTexture(path)
+    planet = new THREE.Mesh(geometry, material)
+    planet.name = name
+    planet.position.set(220,-200, -180)
+
+    return planet
+}
+
+
+
+
+
 function render(){
     // scene.position.x = datControls.positionX
     // scene.position.y = datControls.positionY
@@ -65,8 +83,11 @@ function render(){
     // }
 
     requestAnimationFrame(render);
+
     buttonPivot.rotation.y += 0.1
+    earthMesh.rotation.y += 0.01
     TWEEN.update()
+
     renderer.render(scene, camera);
     renderer2.render(scene2, camera);
     var delta = clock.getDelta()
@@ -117,6 +138,10 @@ function createScene(){
     contactButton.scale.set(0.1, 0.1, 0.1)
     scene2.add(contactButton)
 
+    earthMesh = new Planet('img/earthmap4k.jpg')
+    scene.add(earthMesh)
+
+
     // CAMERA
 
     aspectRatio = WIDTH / HEIGHT;
@@ -159,12 +184,22 @@ function createScene(){
 
     // FLYCONTROLS
 
-    controls = new THREE.FlyControls(camera)
-    controls.movementSpeed = 35;
-    controls.domElement = container
-    controls.rollSpeed = Math.PI / 24;
-    controls.autoForward = false;
-    controls.dragToLook = false;
+    controls = new THREE.FirstPersonControls(camera)
+    // controls.movementSpeed = 35;
+    // controls.domElement = container
+    // controls.rollSpeed = Math.PI / 24;
+    // controls.autoForward = false;
+    // controls.dragToLook = false;
+
+    controls.lookSpeed = 0.1;
+    controls.movementSpeed = 20;
+    controls.noFly = true;
+    controls.lookVertical = true;
+    controls.constrainVertical = true;
+    controls.verticalMin = 1.0;
+    controls.verticalMax = 2.0;
+    controls.lon = -90;
+    controls.lat = 20;
 
     // DAT.GUI
     // =============================================
@@ -206,8 +241,8 @@ function createText(){
 
     var loader = new THREE.FontLoader();
     var textMaterial = new THREE.MeshPhongMaterial( {
-        specular: 0x53167d,
-        color: 0x53167d,
+        specular: 0x520AAA,
+        color: 0x520AAA,
         shininess: 100
     } );
 
@@ -256,7 +291,7 @@ function createText(){
 
         textMesh3 = new THREE.Mesh( textGeo, textMaterial );
         // textMesh3.position.set( -28,-320,0 );
-        textMesh3.position.set( 0,0,0 );
+        textMesh3.position.set( -28,0,0 );
 
         textMesh3.name = "third_line"
         textMesh3.receiveShadow = true
@@ -272,7 +307,7 @@ function createTorus(){
 
     buttonPivot = new THREE.Object3D();
     buttonPivot.name = "buttonPivot"
-    buttonPivot.position.set(0, -30, 0)
+    buttonPivot.position.set(0, -50, 0)
 
     // ARROW
 
@@ -299,7 +334,16 @@ function createTorus(){
     };
 
     var arrowGeom = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-    var arrowMaterial = new THREE.MeshNormalMaterial();
+    // var arrowMaterial = new THREE.MeshNormalMaterial();
+    var arrowMaterial = new THREE.MeshPhongMaterial( {
+        specular: 0x8C52D3,
+        color: 0x8C52D3,
+        shininess: 10
+    } );
+
+
+
+
     arrowMaterial.side = THREE.DoubleSide;
     arrowMesh = new THREE.Mesh( arrowGeom, arrowMaterial );
     arrowMesh.name = "arrowMesh"
@@ -307,11 +351,11 @@ function createTorus(){
 
     // TORUS
 
-    var torusMaterial = new THREE.MeshNormalMaterial();
-    torusMaterial.side = THREE.DoubleSide;
+    // var torusMaterial = new THREE.MeshNormalMaterial();
+    // torusMaterial.side = THREE.DoubleSide;
 
     var torusGeom = new THREE.TorusGeometry(10, 2, 4, 6, Math.PI * 2);
-    torusMesh = new THREE.Mesh(torusGeom, torusMaterial);
+    torusMesh = new THREE.Mesh(torusGeom, arrowMaterial);
     torusMesh.name = "torusMesh"
 
     buttonPivot.add(arrowMesh)
@@ -386,7 +430,7 @@ function createLights() {
     scene.add(pointLight);
     */
 
-    // SPOTLIGHT #1
+    // SPOTLIGHT #1 - textPivot
 
     var pointColor = "#ffffff";
     var spotLight = new THREE.SpotLight(pointColor);
@@ -398,7 +442,7 @@ function createLights() {
     spotLight.target = target;
     scene.add(spotLight);
 
-    // SPOTLIGHT #2
+    // SPOTLIGHT #2 - contactPivot
 
     spotLight2 = new THREE.SpotLight(pointColor);
     spotLight2.position.set(0,-360,90);
@@ -408,6 +452,19 @@ function createLights() {
     target.position = new THREE.Vector3(5, -330, 0);
     spotLight2.target = target;
     scene.add(spotLight2);
+
+    // SPOTLIGHT #3 - Earth
+
+    spotLight3 = new THREE.SpotLight(pointColor);
+    spotLight3.position.set(earthMesh.position.x ,earthMesh.position.y ,earthMesh.position.z - 100);
+    spotLight3.castShadow = true;
+
+    // var target = new THREE.Object3D();
+    // target.position = new THREE.Vector3(earthMesh.position);
+    spotLight3.target = earthMesh;
+    scene.add(spotLight3);
+
+
 }
 
 function onDocumentMouseDown(event) {
