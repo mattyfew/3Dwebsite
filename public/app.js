@@ -74,7 +74,9 @@ function loadDivContent(fileName) {
     element.style.top = 0
     element.style.left = 0
     element.style.zIndex = 1000
-    element.className = 'popUpDiv'
+    // element.className = 'content-div'
+    element.style.opacity = 0
+    console.log(this);
 
     var loader = new THREE.FileLoader()
     var myHTML = ''
@@ -82,9 +84,33 @@ function loadDivContent(fileName) {
         console.log(data);
         element.innerHTML = data
         $('body').prepend(element)
+
+        var opacity = {val:0.0}
+        var target = {val:1.0}
+
+        setTimeout(function(){
+            var tween = new TWEEN.Tween(opacity).to(target, 2000)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onUpdate(function(){
+                console.log(element.style.opacity);
+                element.style.opacity = opacity.val
+            })
+            .start()
+        }, 500)
     })
 }
 
+function fadeInDiv(){
+    setTimeout(function(){
+        var tween = new TWEEN.Tween(element.style.opacity).to(1, 2000)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .onUpdate(function(){
+            console.log(element.style.opacity);
+        })
+        .start()
+
+    }, 2000)
+}
 
 
 
