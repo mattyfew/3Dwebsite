@@ -33,21 +33,21 @@ var YoutubePlane = function (id, x, y, z, ry) {
 
     return div;
 }
-var ContactButton = function () {
+var ContactButton = function (x,y,z) {
     var element = document.createElement('div')
     var width = '400px'
     var height = '100px'
 
     // element.style.width = 'auto';
     // element.style.height = '100%';
-    element.style.padding = '0';
+    element.style.padding = '0'
     element.style.backgroundColor = '#131FAD'
     element.style.borderRadius = 25 + "px"
     element.className = 'contact-button'
     element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">Email me!</a>';
 
     var div = new THREE.CSS3DObject(element)
-    div.position.set(0,-330,0)
+    div.position.set(x,y,z)
     div.name = "contactButton"
 
     return div;
@@ -61,6 +61,28 @@ var Planet = function(path, name) {
     planet.position.set(220,-200, -180)
 
     return planet
+}
+function loadDivContent(fileName) {
+    var element = document.createElement('div')
+    var HEIGHT = $(window).height()
+    var WIDTH = $(window).width()
+
+    element.style.width = WIDTH + 'px'
+    element.style.height = HEIGHT + 'px'
+    element.style.backgroundColor = 'yellow'
+    element.style.position = 'absolute'
+    element.style.top = 0
+    element.style.left = 0
+    element.style.zIndex = 1000
+    element.className = 'popUpDiv'
+
+    var loader = new THREE.FileLoader()
+    var myHTML = ''
+    loader.load('./html/' + fileName + '.html', function(data){
+        console.log(data);
+        element.innerHTML = data
+        $('body').prepend(element)
+    })
 }
 
 
@@ -103,7 +125,6 @@ function init(){
     createLights();
     render();
 }
-
 function createScene(){
 
     container = document.getElementById('container');
@@ -130,13 +151,21 @@ function createScene(){
     scene2 = new THREE.Scene();
     scene = new THREE.Scene();
 
-    youtube = new YoutubePlane('kJvrgyHXrMo', 0, -250, 0, 0) // The Monster
+    // MESHES IN SCENE
+
+    //YOUTUBE
+
+    youtube = new YoutubePlane('kJvrgyHXrMo', 0, -280, 0, 0) // The Monster
     youtube.scale.set(0.1, 0.1, 0.1)
     scene2.add(youtube)
 
-    contactButton = new ContactButton()
+    // ContactButton
+
+    contactButton = new ContactButton(0, -380, 0)
     contactButton.scale.set(0.1, 0.1, 0.1)
     scene2.add(contactButton)
+
+    // EARTH
 
     earthMesh = new Planet('img/earthmap4k.jpg')
     scene.add(earthMesh)
@@ -150,7 +179,7 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,-315,100)
+    camera.position.set(0,-250,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -168,19 +197,6 @@ function createScene(){
     ]
     var skyBox = new THREE.CubeTextureLoader().setPath(imagePrefix).load(urls)
     scene.background = skyBox
-
-    /*
-    // TRACKBALL CONTROLS
-
-    trackballControls = new THREE.TrackballControls(camera)
-    trackballControls.rotateSpeed = 0.2
-    trackballControls.zoomSpeed = 0.3
-    trackballControls.panSpeed = 0.3
-
-    trackballControls.noRotate = false;
-    trackballControls.noZoom = false;
-    trackballControlsMoving = true;
-    */
 
     // FLYCONTROLS
 
@@ -235,9 +251,7 @@ function createText(){
 
     contactPivot = new THREE.Object3D();
     contactPivot.name = "contactPivot"
-    contactPivot.position.set(0 ,-300 ,0)
-
-    console.log(contactPivot);
+    contactPivot.position.set(0 ,-350 ,0)
 
     var loader = new THREE.FontLoader();
     var textMaterial = new THREE.MeshPhongMaterial( {
@@ -367,33 +381,37 @@ function createPlaneGroup(){
 
     var startPosY = -60
 
-    createPlane(-25, startPosY - 20, "plane1", "/img/websites/advanced_cosmetic_dentistry.jpg")
-    createPlane(0, startPosY - 20, "plane2", "/img/websites/rexmenu.jpg")
-    createPlane(25, startPosY - 20, "plane3", "/img/websites/dr_maieve.jpg")
+    createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "/img/websites/advanced_cosmetic_dentistry.jpg")
+    createPlane(0, startPosY - 20, "retro_express", "/img/websites/rexmenu.jpg")
+    createPlane(25, startPosY - 20, "dr_maieve", "/img/websites/dr_maieve.jpg")
 
-    createPlane(-25, startPosY - 40, "plane3", "/img/websites/dr_alison_black.jpg")
-    createPlane(0, startPosY - 40, "plane5", "/img/websites/atlas_vein.jpg")
-    createPlane(25, startPosY - 40, "plane6", "/img/websites/galleria.jpg")
+    createPlane(-25, startPosY - 40, "dr_alison_black", "/img/websites/dr_alison_black.jpg")
+    createPlane(0, startPosY - 40, "atlas_vein", "/img/websites/atlas_vein.jpg")
+    createPlane(25, startPosY - 40, "galleria", "/img/websites/galleria.jpg")
 
-    createPlane(-25, startPosY - 60, "plane7", "/img/websites/priest_dental.jpg")
-    createPlane(0, startPosY - 60, "plane8", "/img/websites/retinal_san_antonio.jpg")
-    createPlane(25, startPosY - 60, "plane9", "/img/websites/schlessinger.jpg")
+    createPlane(-25, startPosY - 60, "spiced", "/img/websites/spiced1.jpg")
+    createPlane(0, startPosY - 60, "dr_perron", "/img/websites/dr_perron.jpg")
+    createPlane(25, startPosY - 60, "schlessinger", "/img/websites/schlessinger.jpg")
 
-    createPlane(-25, startPosY - 80, "plane10", "/img/websites/static_home.jpg")
-    createPlane(0, startPosY - 80, "plane11", "/img/websites/tsrh_home.jpg")
-    createPlane(25, startPosY - 80, "plane12", "/img/websites/urogynecology_center.jpg")
+    createPlane(-25, startPosY - 80, "static_home", "/img/websites/static_home.jpg")
+    createPlane(0, startPosY - 80, "tsrh_home", "/img/websites/tsrh_home.jpg")
+    createPlane(25, startPosY - 80, "urogynecology_center", "/img/websites/urogynecology_center.jpg")
 
-    createPlane(-25, startPosY - 100, "plane13", "/img/websites/gentle_dental.jpg")
-    createPlane(0, startPosY - 100, "plane14", "/img/websites/mcdowell.jpg")
-    createPlane(25, startPosY - 100, "plane15", "/img/websites/dental_phobia.jpg")
+    createPlane(-25, startPosY - 100, "gentle_dental", "/img/websites/gentle_dental.jpg")
+    createPlane(0, startPosY - 100, "mcdowell", "/img/websites/mcdowell.jpg")
+    createPlane(25, startPosY - 100, "dental_phobia", "/img/websites/dental_phobia.jpg")
 
-    createPlane(-25, startPosY - 120, "plane16", "/img/websites/belcor_builders.jpg")
-    createPlane(0, startPosY - 120, "plane17", "/img/websites/eye_surgery_center.jpg")
-    createPlane(25, startPosY - 120, "plane18", "/img/websites/centerderm.jpg")
+    createPlane(-25, startPosY - 120, "belcor_builders", "/img/websites/belcor_builders.jpg")
+    createPlane(0, startPosY - 120, "dfw_spine", "/img/websites/dfw_spine.jpg")
+    createPlane(25, startPosY - 120, "centerderm", "/img/websites/centerderm.jpg")
 
-    createPlane(-25, startPosY - 140, "plane19", "/img/websites/smiles_4_a_lifetime.jpg")
-    createPlane(0, startPosY - 140, "plane20", "/img/websites/tennessee_vein.jpg")
-    createPlane(25, startPosY - 140, "plane21", "/img/websites/the_vein_clinic.jpg")
+    createPlane(-25, startPosY - 140, "smiles_4_a_lifetime", "/img/websites/smiles_4_a_lifetime.jpg")
+    createPlane(0, startPosY - 140, "tennessee_vein", "/img/websites/tennessee_vein.jpg")
+    createPlane(25, startPosY - 140, "the_vein_clinic", "/img/websites/the_vein_clinic.jpg")
+
+    createPlane(-25, startPosY - 160, "priest_dental", "/img/websites/priest_dental.jpg")
+    createPlane(0, startPosY - 160, "retinal_san_antonio", "/img/websites/retinal_san_antonio.jpg")
+    createPlane(25, startPosY - 160, "eye_surgery_center", "/img/websites/eye_surgery_center.jpg")
 
     scene.add(planeGroup);
 
@@ -413,44 +431,28 @@ function createPlaneGroup(){
     }
 }
 function createLights() {
-    /*
-    // AMBIENT LIGHT
-
-    var ambiColor = "#ffffff"
-    var ambientLight = new THREE.AmbientLight(ambiColor, 1)
-    scene.add(ambientLight)
-    */
-
-    /*
-    // POINT LIGHT
-
-    var pointColor = "#ffffff";
-    var pointLight = new THREE.PointLight(pointColor);
-    pointLight.position.set(10,10,10);
-    scene.add(pointLight);
-    */
 
     // SPOTLIGHT #1 - textPivot
 
     var pointColor = "#ffffff";
     var spotLight = new THREE.SpotLight(pointColor);
-    spotLight.position.set(0,0,90);
+    // spotLight.position.set(0,0,90);
     spotLight.castShadow = true;
 
     var target = new THREE.Object3D();
-    target.position = new THREE.Vector3(5, 0, 0);
+    // target.position = new THREE.Vector3(5, 0, 0);
+    target.position = new THREE.Vector3(target.position.x, target.position.y, target.position.z);
     spotLight.target = target;
+    spotLight.position.set(target.position.x, target.position.y, target.position.z + 100);
+
     scene.add(spotLight);
 
     // SPOTLIGHT #2 - contactPivot
 
     spotLight2 = new THREE.SpotLight(pointColor);
-    spotLight2.position.set(0,-360,90);
+    spotLight2.position.set(contactPivot.position.x, contactPivot.position.y - 60, contactPivot.position.z + 90);
     spotLight2.castShadow = true;
-
-    var target = new THREE.Object3D();
-    target.position = new THREE.Vector3(5, -330, 0);
-    spotLight2.target = target;
+    spotLight2.target = contactPivot
     scene.add(spotLight2);
 
     // SPOTLIGHT #3 - Earth
@@ -458,13 +460,8 @@ function createLights() {
     spotLight3 = new THREE.SpotLight(pointColor);
     spotLight3.position.set(earthMesh.position.x ,earthMesh.position.y ,earthMesh.position.z - 100);
     spotLight3.castShadow = true;
-
-    // var target = new THREE.Object3D();
-    // target.position = new THREE.Vector3(earthMesh.position);
     spotLight3.target = earthMesh;
     scene.add(spotLight3);
-
-
 }
 
 function onDocumentMouseDown(event) {
@@ -478,7 +475,7 @@ function onDocumentMouseDown(event) {
     // =============================================
 
     var targetPosition, currentPosition;
-    if (intersects.length > 0 && intersects[0].object.name.substring(0,5) === "plane") {
+    if (intersects.length > 0 && intersects[0].object.geometry.type === "PlaneGeometry") {
 
         // TWEENBACK
 
@@ -528,7 +525,7 @@ function onDocumentMouseDown(event) {
 
             var tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
                 .easing(TWEEN.Easing.Exponential.Out)
-                .onStart(function() {
+                .onStart( function() {
                     console.log(targetPosition);
                     console.log(camCurrentPosition);
                 })
@@ -538,7 +535,11 @@ function onDocumentMouseDown(event) {
                     intersects[0].object.position.x = camCurrentPosition.x
                     intersects[0].object.position.y = camCurrentPosition.y
                     intersects[0].object.position.z = camCurrentPosition.z
-                }).start();
+                })
+                .onComplete( function () {
+                    loadDivContent(intersects[0].object.name)
+                })
+                .start();
         }
 
     } else if (intersects.length > 0 && ( intersects[0].object.name === "torusMesh" || intersects[0].object.name === "arrowMesh" )) {
