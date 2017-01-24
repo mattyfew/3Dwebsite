@@ -126,8 +126,6 @@ function render(){
     let delta = clock.getDelta()
     controls.update(delta)
 }
-
-init()
 function init(){
     createScene();
     createText();
@@ -166,13 +164,13 @@ function createScene(){
 
     //YOUTUBE
 
-    youtube = new YoutubePlane('kJvrgyHXrMo', 0, -280, 0, 0) // The Monster
+    youtube = new YoutubePlane('kJvrgyHXrMo', 0, -330, 0, 0) // The Monster
     youtube.scale.set(0.1, 0.1, 0.1)
     scene2.add(youtube)
 
     // ContactButton
 
-    contactButton = new ContactButton(0, -380, 0)
+    contactButton = new ContactButton(0, -430, 0)
     contactButton.scale.set(0.1, 0.1, 0.1)
     scene2.add(contactButton)
 
@@ -224,7 +222,7 @@ function createText(){
 
     contactPivot = new THREE.Object3D();
     contactPivot.name = "contactPivot"
-    contactPivot.position.set(0 ,-350 ,0)
+    contactPivot.position.set(0 ,-400 ,0)
 
     let loader = new THREE.FontLoader();
     let textMaterial = new THREE.MeshPhongMaterial( {
@@ -533,3 +531,5 @@ function handleWindowResize() {
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
 }
+
+init()
