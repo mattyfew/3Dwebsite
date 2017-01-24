@@ -125,7 +125,7 @@ function render(){
 
     renderer.render(scene, camera);
     renderer2.render(scene2, camera);
-    var delta = clock.getDelta()
+    let delta = clock.getDelta()
     controls.update(delta)
 }
 
@@ -199,16 +199,9 @@ function createScene(){
 
     // SKYBOX
 
-    var imagePrefix = "/img/";
-    var urls = [
-        `space.jpg`,
-        `space.jpg`,
-        `space.jpg`,
-        `space.jpg`,
-        `space.jpg`,
-        `space.jpg`
-    ]
-    var skyBox = new THREE.CubeTextureLoader().setPath(imagePrefix).load(urls)
+    let imagePrefix = "/img/";
+    let urls = [ `space.jpg`, `space.jpg`, `space.jpg`, `space.jpg`, `space.jpg`, `space.jpg` ]
+    let skyBox = new THREE.CubeTextureLoader().setPath(imagePrefix).load(urls)
     scene.background = skyBox
 
     // FLYCONTROLS
@@ -235,14 +228,14 @@ function createText(){
     contactPivot.name = "contactPivot"
     contactPivot.position.set(0 ,-350 ,0)
 
-    var loader = new THREE.FontLoader();
-    var textMaterial = new THREE.MeshPhongMaterial( {
+    let loader = new THREE.FontLoader();
+    let textMaterial = new THREE.MeshPhongMaterial( {
         specular: 0x520AAA,
         color: 0x520AAA,
         shininess: 100
     } );
 
-    var options = {
+    let options = {
         // font: font,
         size: 10,
         height: 1,
@@ -258,7 +251,7 @@ function createText(){
 
         // FIRST LINE
 
-        var textGeo = new THREE.TextGeometry( "Hello! I'm Matt Fewer.", options);
+        let textGeo = new THREE.TextGeometry( "Hello! I'm Matt Fewer.", options);
         textMesh = new THREE.Mesh( textGeo, textMaterial );
         textMesh.position.set( 0,0,0 );
         textMesh.name = "first_line"
@@ -307,9 +300,9 @@ function createTorus(){
 
     // ARROW
 
-    var baseHeight = -4, baseWidth = 3;
+    let baseHeight = -4, baseWidth = 3;
 
-    var shape = new THREE.Shape();
+    let shape = new THREE.Shape();
 
     shape.moveTo( 0,0 );
     shape.lineTo( baseWidth, 0 );
@@ -320,7 +313,7 @@ function createTorus(){
     shape.lineTo( 0, baseHeight );
     shape.lineTo( 0, 0 );
 
-    var extrudeSettings = {
+    let extrudeSettings = {
     	steps: 5,
     	amount: 3,
     	bevelEnabled: true,
@@ -329,9 +322,9 @@ function createTorus(){
     	bevelSegments: 1
     };
 
-    var arrowGeom = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+    let arrowGeom = new THREE.ExtrudeGeometry( shape, extrudeSettings );
     // var arrowMaterial = new THREE.MeshNormalMaterial();
-    var arrowMaterial = new THREE.MeshPhongMaterial( {
+    let arrowMaterial = new THREE.MeshPhongMaterial( {
         specular: 0x8C52D3,
         color: 0x8C52D3,
         shininess: 10
@@ -350,7 +343,7 @@ function createTorus(){
     // var torusMaterial = new THREE.MeshNormalMaterial();
     // torusMaterial.side = THREE.DoubleSide;
 
-    var torusGeom = new THREE.TorusGeometry(10, 2, 4, 6, Math.PI * 2);
+    let torusGeom = new THREE.TorusGeometry(10, 2, 4, 6, Math.PI * 2);
     torusMesh = new THREE.Mesh(torusGeom, arrowMaterial);
     torusMesh.name = "torusMesh"
 
@@ -361,7 +354,7 @@ function createTorus(){
 function createPlaneGroup(){
     planeGroup = new THREE.Group();
 
-    var startPosY = -60
+    let startPosY = -60
 
     createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "/img/websites/advanced_cosmetic_dentistry.jpg")
     createPlane(0, startPosY - 20, "retro_express", "/img/websites/rexmenu.jpg")
@@ -422,12 +415,12 @@ function createLights() {
 
     // SPOTLIGHT #1 - textPivot
 
-    var pointColor = "#ffffff";
-    var spotLight = new THREE.SpotLight(pointColor);
+    let pointColor = "#ffffff";
+    let spotLight = new THREE.SpotLight(pointColor);
     // spotLight.position.set(0,0,90);
     spotLight.castShadow = true;
 
-    var target = new THREE.Object3D();
+    let target = new THREE.Object3D();
     // target.position = new THREE.Vector3(5, 0, 0);
     target.position = new THREE.Vector3(target.position.x, target.position.y, target.position.z);
     spotLight.target = target;
@@ -453,16 +446,16 @@ function createLights() {
 }
 
 function onDocumentMouseDown(event) {
-    var vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
+    let vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
     vector = vector.unproject(camera);
-    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-    var intersects = raycaster.intersectObjects(scene.children, true);
+    let raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+    let intersects = raycaster.intersectObjects(scene.children, true);
 
 
     // PLANE FLIP TWEEN
     // =============================================
 
-    var targetPosition, currentPosition;
+    let targetPosition, currentPosition;
     if (intersects.length > 0 && intersects[0].object.geometry.type === "PlaneGeometry") {
 
         // TWEENBACK
@@ -476,7 +469,7 @@ function onDocumentMouseDown(event) {
                 rot: 360
             }
 
-            var tweenBack = new TWEEN.Tween(currentPosition).to(firstPosition, 1000)
+            let tweenBack = new TWEEN.Tween(currentPosition).to(firstPosition, 1000)
                 .easing(TWEEN.Easing.Exponential.Out)
                 .onUpdate( function () {
                     intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
@@ -511,7 +504,7 @@ function onDocumentMouseDown(event) {
                 rot: camera.rotation._y + 360
             }
 
-            var tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
+            let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
                 .easing(TWEEN.Easing.Exponential.Out)
                 .onStart( function() {
                     console.log(targetPosition);
@@ -541,30 +534,4 @@ function handleWindowResize() {
 	renderer.setSize(WIDTH, HEIGHT);
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
-}
-
-function runTweens(){
-    var theTarget = new THREE.Object3D();
-    theTarget.name = "theTarget"
-    theTarget.position.set(0,0,0)
-    camera.target = theTarget
-    camera.updateProjectionMatrix();
-
-    var tween1 = new TWEEN.Tween(camera.position).to({
-        y: -140}, 5000)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .onUpdate(function () {
-            trackballControls.target.set(theTarget.position);
-        }).start();
-
-    var tween2 = new TWEEN.Tween(trackballControls.target).to({
-        y: -140}, 5000)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .onUpdate(function () {
-            trackballControls.target.set(theTarget.position);
-        })
-        .onComplete(function () {
-            trackballControls.reset()
-        //     runClickTweens = false
-        }).start();
 }
