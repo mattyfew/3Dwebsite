@@ -4,50 +4,7 @@
         <meta charset="utf-8">
         <title>Threejs Experiment</title>
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <style media="screen">
-            html,
-            body {
-                height: 100%;
-                overflow: hidden;
-                margin: 0;
-            }
-            nav {
-                background: grey;
-                text-align: center;
-            }
-            #container {
-                height: 400px;
-                width: 500px
-            }
-            /*.three-div{
-                background: #BADA55;
-                color: #E50000;
-                font-family: Arial, Helvetica, Sans-serif;
-                font-size: 2em;
-                padding: 2em;
-            }*/
-            .contact-button{
-                font-family: 'Open Sans', Arial, Helvetica, Sans-serif;
-                font-size: 2em;
-                /*padding: 2em;*/
-                /*padding: 0;*/
-                width: auto;
-                text-align: center;
-            }
-            .contact-button a {
-                text-decoration: none;
-                display: block;
-                font-size: 2em;
-                color: #8C52D3;
-                padding: 1em 2em
-            }
-            .contact-button:hover { background-color: red}
-            .contact-button a:hover { color: white}
-            .content-div {
-                opacity: 0.5;
-                transition: opacity 4s ease-in;
-            }
-        </style>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <div id="container">
@@ -60,6 +17,7 @@
         <script type="text/javascript" src="/assets/CSS3DRenderer.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/assets/EventDispatcher.js"></script>
         <script type="text/javascript" src="/app.js"></script>
     </body>
 </html>

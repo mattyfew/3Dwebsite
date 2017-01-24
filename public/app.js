@@ -69,30 +69,44 @@ function loadDivContent(fileName) {
 
     element.style.width = WIDTH + 'px'
     element.style.height = HEIGHT + 'px'
-    element.style.backgroundColor = 'yellow'
-    element.style.position = 'absolute'
-    element.style.top = 0
-    element.style.left = 0
-    element.style.zIndex = 1000
-    // element.className = 'content-div'
-    element.style.opacity = 0
-    console.log(this);
+    element.className = 'content-div'
 
     var loader = new THREE.FileLoader()
-    var myHTML = ''
     loader.load('./html/' + fileName + '.html', function(data){
-        console.log(data);
         element.innerHTML = data
+        element.prototype = {}
+
+        Object.assign( element.prototype, EventDispatcher.prototype );
+
+        element.addEventListener('click', function(e){
+
+            var opacity = {val:0.9}
+            var target = {val:0.0}
+
+            var tween = new TWEEN.Tween(opacity).to(target, 1500)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onUpdate( function(){
+                element.style.opacity = opacity.val
+            })
+            .onComplete( function() {
+                element.parentNode.removeChild(element)
+                controls.enabled = true
+            })
+            .start()
+        })
+
         $('body').prepend(element)
 
         var opacity = {val:0.0}
-        var target = {val:1.0}
+        var target = {val:0.9}
 
         setTimeout(function(){
             var tween = new TWEEN.Tween(opacity).to(target, 2000)
             .easing(TWEEN.Easing.Exponential.Out)
-            .onUpdate(function(){
-                console.log(element.style.opacity);
+            .onStart( function(){
+                controls.enabled = false;
+            })
+            .onUpdate( function(){
                 element.style.opacity = opacity.val
             })
             .start()
@@ -100,36 +114,9 @@ function loadDivContent(fileName) {
     })
 }
 
-function fadeInDiv(){
-    setTimeout(function(){
-        var tween = new TWEEN.Tween(element.style.opacity).to(1, 2000)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .onUpdate(function(){
-            console.log(element.style.opacity);
-        })
-        .start()
-
-    }, 2000)
-}
-
-
 
 
 function render(){
-    // scene.position.x = datControls.positionX
-    // scene.position.y = datControls.positionY
-    //
-    // scene.traverse(function(node){
-    //     if (node.name === "textPivot"){
-    //         node.position.x = datControls.textPivotPosX
-    //         node.position.y = datControls.textPivotPosY
-    //         node.position.z = datControls.textPivotPosZ
-    //     }
-    // })
-    // if(runClickTweens === true){
-    //     runTweens()
-    // }
-
     requestAnimationFrame(render);
 
     buttonPivot.rotation.y += 0.1
@@ -227,12 +214,6 @@ function createScene(){
     // FLYCONTROLS
 
     controls = new THREE.FirstPersonControls(camera)
-    // controls.movementSpeed = 35;
-    // controls.domElement = container
-    // controls.rollSpeed = Math.PI / 24;
-    // controls.autoForward = false;
-    // controls.dragToLook = false;
-
     controls.lookSpeed = 0.1;
     controls.movementSpeed = 20;
     controls.noFly = true;
@@ -242,32 +223,7 @@ function createScene(){
     controls.verticalMax = 2.0;
     controls.lon = -90;
     controls.lat = 20;
-
-    // DAT.GUI
-    // =============================================
-
-    datControls = new function(){
-        this.positionX = 0
-        this.positionY = 0
-
-        this.textPivotPosX = -65
-        this.textPivotPosY = 5
-        this.textPivotPosZ = 0
-    }
-
-    // var gui = new dat.GUI();
-    // gui.add(datControls, 'positionX', -20, 20)
-    // gui.add(datControls, 'positionY', -20, 20)
-    //
-    // var f1 = gui.addFolder('text')
-    // f1.add(datControls, 'textPivotPosX', -600, 600)
-    // f1.add(datControls, 'textPivotPosY', -600, 600)
-    // f1.add(datControls, 'textPivotPosZ', -600, 600)
-    // f1.open()
-
 }
-
-// =============================================
 
 function createText(){
 
@@ -423,32 +379,38 @@ function createPlaneGroup(){
     createPlane(0, startPosY - 80, "tsrh_home", "/img/websites/tsrh_home.jpg")
     createPlane(25, startPosY - 80, "urogynecology_center", "/img/websites/urogynecology_center.jpg")
 
-    createPlane(-25, startPosY - 100, "gentle_dental", "/img/websites/gentle_dental.jpg")
-    createPlane(0, startPosY - 100, "mcdowell", "/img/websites/mcdowell.jpg")
-    createPlane(25, startPosY - 100, "dental_phobia", "/img/websites/dental_phobia.jpg")
 
-    createPlane(-25, startPosY - 120, "belcor_builders", "/img/websites/belcor_builders.jpg")
-    createPlane(0, startPosY - 120, "dfw_spine", "/img/websites/dfw_spine.jpg")
-    createPlane(25, startPosY - 120, "centerderm", "/img/websites/centerderm.jpg")
+    createPlane(0, startPosY - 120, "about_mf", "/img/websites/gentle_dental.jpg", true)
 
-    createPlane(-25, startPosY - 140, "smiles_4_a_lifetime", "/img/websites/smiles_4_a_lifetime.jpg")
-    createPlane(0, startPosY - 140, "tennessee_vein", "/img/websites/tennessee_vein.jpg")
-    createPlane(25, startPosY - 140, "the_vein_clinic", "/img/websites/the_vein_clinic.jpg")
 
-    createPlane(-25, startPosY - 160, "priest_dental", "/img/websites/priest_dental.jpg")
-    createPlane(0, startPosY - 160, "retinal_san_antonio", "/img/websites/retinal_san_antonio.jpg")
-    createPlane(25, startPosY - 160, "eye_surgery_center", "/img/websites/eye_surgery_center.jpg")
+    createPlane(-25, startPosY - 160, "gentle_dental", "/img/websites/gentle_dental.jpg")
+    createPlane(0, startPosY - 160, "mcdowell", "/img/websites/mcdowell.jpg")
+    createPlane(25, startPosY - 160, "dental_phobia", "/img/websites/dental_phobia.jpg")
+
+    createPlane(-25, startPosY - 180, "belcor_builders", "/img/websites/belcor_builders.jpg")
+    createPlane(0, startPosY - 180, "dfw_spine", "/img/websites/dfw_spine.jpg")
+    createPlane(25, startPosY - 180, "centerderm", "/img/websites/centerderm.jpg")
+
+    createPlane(-25, startPosY - 200, "smiles_4_a_lifetime", "/img/websites/smiles_4_a_lifetime.jpg")
+    createPlane(0, startPosY - 200, "tennessee_vein", "/img/websites/tennessee_vein.jpg")
+    createPlane(25, startPosY - 200, "the_vein_clinic", "/img/websites/the_vein_clinic.jpg")
+
+    createPlane(-25, startPosY - 220, "priest_dental", "/img/websites/priest_dental.jpg")
+    createPlane(0, startPosY - 220, "retinal_san_antonio", "/img/websites/retinal_san_antonio.jpg")
+    createPlane(25, startPosY - 220, "eye_surgery_center", "/img/websites/eye_surgery_center.jpg")
 
     scene.add(planeGroup);
 
-    function createPlane(x,y,name,img_path) {
-        var planeGeo = new THREE.PlaneGeometry(20, 10);
-        var material = new THREE.MeshBasicMaterial({
+    function createPlane(x,y,name,img_path, big = false) {
+        let planeGeo, planeMaterial;
+
+        big ? planeGeo = new THREE.PlaneGeometry(70, 50) : planeGeo = new THREE.PlaneGeometry(20, 10);
+        planeMaterial = new THREE.MeshBasicMaterial({
             map: new THREE.TextureLoader().load(img_path, function(texture){})
         });
-        material.side = THREE.DoubleSide
+        planeMaterial.side = THREE.DoubleSide
 
-        var mesh = new THREE.Mesh(planeGeo, material)
+        let mesh = new THREE.Mesh(planeGeo, planeMaterial)
         mesh.name = name
         mesh.position.set(x,y,0)
 
