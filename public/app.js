@@ -10,23 +10,23 @@ var mouse = { x: 0, y: 0 }, INTERSECTED
 var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var YoutubePlane = function (id, x, y, z, ry) {
-    var element = document.createElement('div')
-    var width = '500px'
-    var height = '400px'
+    let element = document.createElement('div')
+    let width = '500px'
+    let height = '400px'
 
     element.style.width = width;
     element.style.height = height;
     element.style.backgroundColor = '#ffffff'
     element.className = 'three-div'
 
-    var iframe = document.createElement('iframe')
+    let iframe = document.createElement('iframe')
     iframe.style.width = width
     iframe.style.height = height
     iframe.style.border = '0px'
     iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('')
     element.appendChild(iframe)
 
-    var div = new THREE.CSS3DObject(element)
+    let div = new THREE.CSS3DObject(element)
     div.position.set(x, y, z)
     div.rotation.y = ry
     div.name = "youtube"
@@ -34,9 +34,9 @@ var YoutubePlane = function (id, x, y, z, ry) {
     return div;
 }
 var ContactButton = function (x,y,z) {
-    var element = document.createElement('div')
-    var width = '400px'
-    var height = '100px'
+    let element = document.createElement('div')
+    let width = '400px'
+    let height = '100px'
 
     // element.style.width = 'auto';
     // element.style.height = '100%';
@@ -46,15 +46,15 @@ var ContactButton = function (x,y,z) {
     element.className = 'contact-button'
     element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">Email me!</a>';
 
-    var div = new THREE.CSS3DObject(element)
+    let div = new THREE.CSS3DObject(element)
     div.position.set(x,y,z)
     div.name = "contactButton"
 
     return div;
 }
 var Planet = function(path, name) {
-    var geometry   = new THREE.SphereGeometry(20, 32, 32)
-    var material  = new THREE.MeshPhongMaterial()
+    let geometry   = new THREE.SphereGeometry(20, 32, 32)
+    let material  = new THREE.MeshPhongMaterial()
     material.map    = THREE.ImageUtils.loadTexture(path)
     planet = new THREE.Mesh(geometry, material)
     planet.name = name
@@ -113,8 +113,6 @@ function loadDivContent(fileName) {
         }, 500)
     })
 }
-
-
 
 function render(){
     requestAnimationFrame(render);
