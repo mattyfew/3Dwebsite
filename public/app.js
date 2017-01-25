@@ -80,7 +80,7 @@ function loadDivContent(fileName) {
 
         element.addEventListener('click', function(e){
 
-            var opacity = {val:0.9}
+            var opacity = {val:1.0}
             var target = {val:0.0}
 
             var tween = new TWEEN.Tween(opacity).to(target, 1500)
@@ -98,7 +98,7 @@ function loadDivContent(fileName) {
         $('body').prepend(element)
 
         var opacity = {val:0.0}
-        var target = {val:0.9}
+        var target = {val:1.0}
 
         setTimeout(function(){
             var tween = new TWEEN.Tween(opacity).to(target, 2000)
@@ -108,6 +108,9 @@ function loadDivContent(fileName) {
             })
             .onUpdate( function(){
                 element.style.opacity = opacity.val
+            })
+            .onComplete( function() {
+                element.className += " active"
             })
             .start()
         }, 500)

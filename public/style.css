@@ -23,21 +23,23 @@ nav { background: grey; text-align: center; }
 .content-div {
     text-align: center;
     font-family: Arial;
-    /*display: flex;
+    display: flex;
     justify-content: center;
-    align-items: center;*/
+    align-items: center;
 
     position: absolute;
-    background-color: grey;
     top: 0;
     left: 0;
     z-index: 1000;
     opacity: 0;
 }
-.website-container{
-    margin: auto 50px;
+.website-container {
     border: 5px solid #2b2b2b;
     padding-bottom: 25px;
+    background-color: grey;
+}
+.lower-half-popup {
+    padding: 20px 55px;
 }
 .website-container h1 {
     background-color: #2b2b2b;
