@@ -9,6 +9,7 @@ var mouse = { x: 0, y: 0 }, INTERSECTED
 
 var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
+
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
     let width = '500px'
@@ -62,80 +63,72 @@ var Planet = function(path, name) {
 
     return planet
 }
+
 function loadDivContent(fileName) {
-    var element = document.createElement('div')
-    var HEIGHT = $(window).height()
-    var WIDTH = $(window).width()
+    let element = document.createElement('div')
+    let HEIGHT = $(window).height()
+    let WIDTH = $(window).width()
+    let selectedSite = {}
 
     element.style.width = WIDTH + 'px'
     element.style.height = HEIGHT + 'px'
     element.className = 'content-div'
 
-    var loader = new THREE.FileLoader()
-    loader.load('./html/' + fileName + '.html', function(data){
-        element.innerHTML = data
-        element.prototype = {}
+    new THREE.FileLoader().load('./data.json', function(jsonData) {
+        data = JSON.parse(jsonData)
+        selectedSite = data[fileName]
 
+        jQuerySelector = `<div class="website-container">
+                            <h1>${selectedSite.name}</h1>
+                            <div class="lower-half-popup">
+                                <h2>${selectedSite.subheader}</h2
+                                <p>${selectedSite.text}</p>
+                                <a href="${selectedSite.link}">Visit Site</a>
+                            </div>
+                          </div>`
+        $(element).append(jQuerySelector)
+
+        element.prototype = {}
         Object.assign( element.prototype, EventDispatcher.prototype );
 
         element.addEventListener('click', function(e){
+            e.stopPropagation()
 
-            var opacity = {val:1.0}
-            var target = {val:0.0}
+            let opacity = {val:1.0},
+                target = {val:0.0}
 
-            var tween = new TWEEN.Tween(opacity).to(target, 1500)
-            .easing(TWEEN.Easing.Exponential.Out)
-            .onUpdate( function(){
-                element.style.opacity = opacity.val
-            })
-            .onComplete( function() {
-                element.parentNode.removeChild(element)
-                controls.enabled = true
-            })
-            .start()
+            let tween = new TWEEN.Tween(opacity).to(target, 1500)
+                .easing(TWEEN.Easing.Exponential.Out)
+                .onUpdate( function(){
+                    element.style.opacity = opacity.val
+                })
+                .onComplete( function() {
+                    element.parentNode.removeChild(element)
+                    controls.enabled = true
+                })
+                .start()
         })
 
         $('body').prepend(element)
 
-        var opacity = {val:0.0}
-        var target = {val:1.0}
-
         setTimeout(function(){
-            var tween = new TWEEN.Tween(opacity).to(target, 2000)
-            .easing(TWEEN.Easing.Exponential.Out)
-            .onStart( function(){
-                controls.enabled = false;
-            })
-            .onUpdate( function(){
-                element.style.opacity = opacity.val
-            })
-            .onComplete( function() {
-                element.className += " active"
-            })
-            .start()
+            let opacity = {val:0.0},
+                target = {val:1.0}
+
+            let tween = new TWEEN.Tween(opacity).to(target, 2000)
+                .easing(TWEEN.Easing.Exponential.Out)
+                .onStart( function(){
+                    controls.enabled = false;
+                })
+                .onUpdate( function(){
+                    element.style.opacity = opacity.val
+                })
+                .onComplete( function() {
+                    element.className += " active"
+                })
+                .start()
         }, 500)
     })
-}
-
-function render(){
-    requestAnimationFrame(render);
-
-    buttonPivot.rotation.y += 0.1
-    earthMesh.rotation.y += 0.01
-    TWEEN.update()
-
-    renderer.render(scene, camera);
-    renderer2.render(scene2, camera);
-    let delta = clock.getDelta()
-    controls.update(delta)
-}
-function init(){
-    createScene();
-    createText();
-    createPlaneGroup();
-    createTorus();
-    createLights();
-    render();
 }
 function createScene(){
 
@@ -181,7 +174,6 @@ function createScene(){
 
     earthMesh = new Planet('img/earthmap4k.jpg')
     scene.add(earthMesh)
-
 
     // CAMERA
 
@@ -372,7 +364,7 @@ function createPlaneGroup(){
     createPlane(25, startPosY - 80, "urogynecology_center", "/img/websites/urogynecology_center.jpg")
 
 
-    createPlane(0, startPosY - 120, "about_mf", "/img/websites/gentle_dental.jpg", true)
+    createPlane(0, startPosY - 120, "about_mf", "/img/about_me/brandenburg_tor.JPG", true)
 
 
     createPlane(-25, startPosY - 160, "gentle_dental", "/img/websites/gentle_dental.jpg")
@@ -397,6 +389,7 @@ function createPlaneGroup(){
         let planeGeo, planeMaterial;
 
         big ? planeGeo = new THREE.PlaneGeometry(70, 50) : planeGeo = new THREE.PlaneGeometry(20, 10);
+
         planeMaterial = new THREE.MeshBasicMaterial({
             map: new THREE.TextureLoader().load(img_path, function(texture){})
         });
@@ -484,6 +477,22 @@ function onDocumentMouseDown(event) {
         // TWEEN
 
         } else {
+            if (intersects[0].object.name === "about_mf"){
+                targetPosition = {
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z - 40,
+                    rot: camera.rotation._y + 360
+                }
+            } else {
+                targetPosition = {
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z - 10,
+                    rot: camera.rotation._y + 360
+                }
+            }
+
             firstPosition = {
                 x: intersects[0].object.position.x,
                 y: intersects[0].object.position.y,
@@ -496,19 +505,9 @@ function onDocumentMouseDown(event) {
                 z: intersects[0].object.position.z,
                 rot: 0
             }
-            targetPosition = {
-                x: camera.position.x,
-                y: camera.position.y,
-                z: camera.position.z - 10,
-                rot: camera.rotation._y + 360
-            }
 
             let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
                 .easing(TWEEN.Easing.Exponential.Out)
-                .onStart( function() {
-                    console.log(targetPosition);
-                    console.log(camCurrentPosition);
-                })
                 .onUpdate( function () {
                     youtube.scale.set(0,0,0);
                     intersects[0].object.rotation.y = (camCurrentPosition.rot * Math.PI)/180
@@ -534,5 +533,24 @@ function handleWindowResize() {
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
 }
+function render(){
+    requestAnimationFrame(render);
 
+    buttonPivot.rotation.y += 0.1
+    earthMesh.rotation.y += 0.01
+    TWEEN.update()
+
+    renderer.render(scene, camera);
+    renderer2.render(scene2, camera);
+    let delta = clock.getDelta()
+    controls.update(delta)
+}
+function init(){
+    createScene();
+    createText();
+    createPlaneGroup();
+    createTorus();
+    createLights();
+    render();
+}
 init()
