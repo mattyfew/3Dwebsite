@@ -9,6 +9,8 @@ var mouse = { x: 0, y: 0 }, INTERSECTED
 
 var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
+var fileLoader = new THREE.FileLoader()
+var websiteData = {}
 
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
@@ -66,18 +68,44 @@ var Planet = function(path, name) {
 
 function loadDivContent(fileName) {
     let element = document.createElement('div')
-    let HEIGHT = $(window).height()
-    let WIDTH = $(window).width()
-    let selectedSite = {}
+        HEIGHT = $(window).height(),
+        WIDTH = $(window).width(),
+        selectedSite = {};
 
     element.style.width = WIDTH + 'px'
     element.style.height = HEIGHT + 'px'
     element.className = 'content-div'
 
-    new THREE.FileLoader().load('./data.json', function(jsonData) {
-        data = JSON.parse(jsonData)
-        selectedSite = data[fileName]
+    element.prototype = {}
+    Object.assign( element.prototype, EventDispatcher.prototype );
 
+    element.addEventListener('click', function(e){
+        e.stopPropagation()
+
+        let opacity = {val:1.0},
+            target = {val:0.0}
+
+        let tween = new TWEEN.Tween(opacity).to(target, 1500)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onUpdate( function(){
+                element.style.opacity = opacity.val
+            })
+            .onComplete( function() {
+                element.parentNode.removeChild(element)
+                controls.enabled = true
+            })
+            .start()
+    })
+
+    if(fileName === "about_mf"){
+
+        // code for loading about content
+
+
+
+    } else {
+
+        selectedSite = websiteData[fileName]
         jQuerySelector = `<div class="website-container">
                             <h1>${selectedSite.name}</h1>
                             <div class="lower-half-popup">
@@ -87,48 +115,27 @@ function loadDivContent(fileName) {
                             </div>
                           </div>`
         $(element).append(jQuerySelector)
+    }
 
-        element.prototype = {}
-        Object.assign( element.prototype, EventDispatcher.prototype );
+    $('body').prepend(element)
 
-        element.addEventListener('click', function(e){
-            e.stopPropagation()
+    setTimeout(function(){
+        let opacity = {val:0.0},
+            target = {val:1.0}
 
-            let opacity = {val:1.0},
-                target = {val:0.0}
-
-            let tween = new TWEEN.Tween(opacity).to(target, 1500)
-                .easing(TWEEN.Easing.Exponential.Out)
-                .onUpdate( function(){
-                    element.style.opacity = opacity.val
-                })
-                .onComplete( function() {
-                    element.parentNode.removeChild(element)
-                    controls.enabled = true
-                })
-                .start()
-        })
-
-        $('body').prepend(element)
-
-        setTimeout(function(){
-            let opacity = {val:0.0},
-                target = {val:1.0}
-
-            let tween = new TWEEN.Tween(opacity).to(target, 2000)
-                .easing(TWEEN.Easing.Exponential.Out)
-                .onStart( function(){
-                    controls.enabled = false;
-                })
-                .onUpdate( function(){
-                    element.style.opacity = opacity.val
-                })
-                .onComplete( function() {
-                    element.className += " active"
-                })
-                .start()
-        }, 500)
-    })
+        let tween = new TWEEN.Tween(opacity).to(target, 2000)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onStart( function(){
+                controls.enabled = false;
+            })
+            .onUpdate( function(){
+                element.style.opacity = opacity.val
+            })
+            .onComplete( function() {
+                element.className += " active"
+            })
+            .start()
+    }, 500)
 }
 function createScene(){
 
@@ -207,6 +214,12 @@ function createScene(){
     controls.verticalMax = 2.0;
     controls.lon = -90;
     controls.lat = 20;
+
+    // LOADING JSON DATA
+
+    fileLoader.load('./data.json', function(jsonData) {
+        websiteData = JSON.parse(jsonData)
+    })
 }
 
 function createText(){
