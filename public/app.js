@@ -98,23 +98,21 @@ function loadDivContent(fileName) {
     })
 
     if(fileName === "about_mf"){
-
-        // code for loading about content
-
-
-
+        fileLoader.load('./html/about_mf.html', function(html){
+            $(element).append(html)
+        })
     } else {
 
         selectedSite = websiteData[fileName]
-        jQuerySelector = `<div class="website-container">
-                            <h1>${selectedSite.name}</h1>
-                            <div class="lower-half-popup">
-                                <h2>${selectedSite.subheader}</h2
-                                <p>${selectedSite.text}</p>
-                                <a href="${selectedSite.link}" target="_blank">Visit Site</a>
-                            </div>
-                          </div>`
-        $(element).append(jQuerySelector)
+        let html = `<div class="website-container">
+                        <h1>${selectedSite.name}</h1>
+                        <div class="lower-half-popup">
+                            <h2>${selectedSite.subheader}</h2
+                            <p>${selectedSite.text}</p>
+                            <a href="${selectedSite.link}" target="_blank">Visit Site</a>
+                        </div>
+                    </div>`
+        $(element).append(html)
     }
 
     $('body').prepend(element)

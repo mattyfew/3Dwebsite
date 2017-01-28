@@ -59,6 +59,27 @@ nav { background: grey; text-align: center; }
     font-size: 1.8em;
 }
 
+
+#about-mf-container {padding: 0 }
+#about-left-side { float: left; }
+#about-left-side p { max-width: 700px; font-size: 1.3em}
+#skills-container ul:first-child { float: left; }
+#skills-container ul:last-child { float: right; }
+
+
+#about-right-side { float: right; }
+#about-right-side img {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 12px;
+}
+
+
+
+
+
+
 .x-button {
     display: inline-block;
     font-size: 50px;
