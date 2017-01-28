@@ -29,6 +29,12 @@
         "text" : "Fun unique design on this one. As one of the main developers for this project, I helped redesign the home and service pages. Also converted the site to be fully responsive.",
         "link" : "http://www.dentalphobia.com/"
     },
+    "dfw_spine" : {
+        "name" : "DFW Center for Spinal Disorders",
+        "subheader" : "Spinal Care Practice with offices in Texas",
+        "text" : "I was the primary front end developer on this project. Had the opportunity to experiment on some new designs and effects. I'm really happy with how it came out :)",
+        "link" : "http://dfwspinecenter.com/"
+    },
     "dr_alison_black" : {
         "name" : "Las Colinas Dermatology",
         "subheader" : "Dermatology Practice in Irving, TX",
@@ -41,10 +47,16 @@
         "text" : "I was the sole front end developer on this website.  Being able to speak Spanish, I was able to work around the Portuguese language quite easily.",
         "link" : "http://www.dramaieve.med.br/"
     },
+    "dr_perron" : {
+        "name" : "Dra. Maiéve Corralo",
+        "subheader" : "Plastic Surgeon practice in Rio de Janeiro, Brazil",
+        "text" : "I was the sole front end developer on this website.  Being able to speak Spanish, I was able to work around the Portuguese language quite easily.",
+        "link" : "http://www.drperron.com/"
+    },
     "eye_surgery_center" : {
         "name" : "Eye Surgery Center of New Yorks",
-        "subheader" : "Eye Care Specialists in the Bronx, NY",
-        "text" : "I was one of the main front end developers for this site. General updates and maintenance.",
+        "subheader" : "Plastic Surgeon in Calgary, Canada",
+        "text" : "I was the primary front end developers for this site.",
         "link" : "http://www.eyescny.com/"
     },
     "galleria" : {
@@ -94,6 +106,12 @@
         "subheader" : "Dental Practice in New York, NY",
         "text" : "I designed and built the photo gallery for this site.",
         "link" : "http://www.smiles4alifetime.com/"
+    },
+    "spiced" : {
+        "name" : "SPICED Academy",
+        "subheader" : "Computer Programming Bootcamp in Berlin, Germany",
+        "text" : "This is where I currently work!  We migrated the original site from WordPress to Node.js with Handlebars, Express, jQuery, and Foundation.  We also redesigned the application system, incorporating the Slack and Google Docs API to track applicants",
+        "link" : "https://www.spiced-academy.com/"
     },
     "static_address" : {
         "name" : "Static Address",

@@ -83,7 +83,7 @@ function loadDivContent(fileName) {
                             <div class="lower-half-popup">
                                 <h2>${selectedSite.subheader}</h2
                                 <p>${selectedSite.text}</p>
-                                <a href="${selectedSite.link}">Visit Site</a>
+                                <a href="${selectedSite.link}" target="_blank">Visit Site</a>
                             </div>
                           </div>`
         $(element).append(jQuerySelector)
