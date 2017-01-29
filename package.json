@@ -6,6 +6,7 @@
   "dependencies": {
     "cors": "^2.8.1",
     "express": "^4.14.0",
+    "express-device": "^0.4.2",
     "three.regular.helvetiker": "^1.0.0"
   },
   "devDependencies": {},
