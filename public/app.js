@@ -11,7 +11,6 @@ var clock = new THREE.Clock()
 var fileLoader = new THREE.FileLoader()
 var websiteData = {}
 
-
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
     let width = '500px'
@@ -99,12 +98,15 @@ function loadDivContent(fileName) {
             .start()
     })
 
-    if(fileName === "about_mf"){
+    if (fileName === "about_mf"){
         fileLoader.load('./html/about_mf.html', function(html){
             $(element).append(html)
         })
+    } else if (fileName === "modal"){
+        fileLoader.load('./html/modal.html', function(html){
+            $(element).append(html)
+        })
     } else {
-
         selectedSite = websiteData[fileName]
         let html = `<div class="website-container">
                         <h1>${selectedSite.name}</h1>
@@ -113,6 +115,7 @@ function loadDivContent(fileName) {
                             <p>${selectedSite.text}</p>
                             <a href="${selectedSite.link}" target="_blank">Visit Site</a>
                         </div>
+                        <footer>Click to anywhere to close</footer>
                     </div>`
         $(element).append(html)
     }
@@ -163,6 +166,8 @@ function createScene(){
 
     scene2 = new THREE.Scene();
     scene = new THREE.Scene();
+
+    loadDivContent("modal")
 
     //YOUTUBE
 
@@ -478,7 +483,6 @@ function onDocumentMouseDown(event) {
                 .onStart( function() {
                     raycaster.setFromCamera( mouse, camera );
                     intersects = raycaster.intersectObjects(scene.children, true);
-
                 })
                 .onUpdate( function () {
                     intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
@@ -486,15 +490,9 @@ function onDocumentMouseDown(event) {
                     intersects[0].object.position.y = currentPosition.y
                     intersects[0].object.position.z = currentPosition.z
                     camera.lookAt(intersects[0].object.position)
-                    // camera.lookAt({x: mouse.x, y: mouse.y, z: camera.position.z})
-
                 })
                 .onComplete( function() {
-                    youtube.scale.set(0.1,0.1,0.1)
-
-
-                    // raycaster.setFromCamera( mouse.clone(), camera );
-                })
+                    youtube.scale.set(0.1,0.1,0.1)                })
             tweenBack.start()
 
         // TWEEN
@@ -561,14 +559,14 @@ function handleWindowResize() {
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
 }
-function onMouseMove( e ) {
-
-    e.preventDefault()
-	mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1
-
-}
-window.addEventListener('mousemove', onMouseMove, false)
+// function onMouseMove( e ) {
+//
+//     e.preventDefault()
+// 	mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+// 	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1
+//
+// }
+// window.addEventListener('mousemove', onMouseMove, false)
 function render(){
     requestAnimationFrame(render);
 
