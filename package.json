@@ -4,6 +4,7 @@
   "description": "3D version of my site",
   "main": "server.js",
   "dependencies": {
+    "cors": "^2.8.1",
     "express": "^4.14.0",
     "three.regular.helvetiker": "^1.0.0"
   },

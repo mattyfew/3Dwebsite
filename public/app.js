@@ -5,12 +5,12 @@ var textMesh, textMesh2, textPivot, textMesh3, contactButton, contactPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
 var earthMesh;
 
-var mouse = { x: 0, y: 0 }, INTERSECTED
-
+var mouse = new THREE.Vector2();
 var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var fileLoader = new THREE.FileLoader()
 var websiteData = {}
+
 
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
@@ -23,11 +23,15 @@ var YoutubePlane = function (id, x, y, z, ry) {
     element.className = 'three-div'
 
     let iframe = document.createElement('iframe')
+    iframe.style.pointerEvents = "none";
     iframe.style.width = width
     iframe.style.height = height
     iframe.style.border = '0px'
     iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('')
     element.appendChild(iframe)
+
+
+
 
     let div = new THREE.CSS3DObject(element)
     div.position.set(x, y, z)
@@ -41,8 +45,6 @@ var ContactButton = function (x,y,z) {
     let width = '400px'
     let height = '100px'
 
-    // element.style.width = 'auto';
-    // element.style.height = '100%';
     element.style.padding = '0'
     element.style.backgroundColor = '#131FAD'
     element.style.borderRadius = 25 + "px"
@@ -123,9 +125,9 @@ function loadDivContent(fileName) {
 
         let tween = new TWEEN.Tween(opacity).to(target, 2000)
             .easing(TWEEN.Easing.Exponential.Out)
-            .onStart( function(){
-                controls.enabled = false;
-            })
+            // .onStart( function(){
+            //     // controls.enabled = false;
+            // })
             .onUpdate( function(){
                 element.style.opacity = opacity.val
             })
@@ -153,6 +155,7 @@ function createScene(){
     // RENDERER #2 - CSS3D
 
     renderer2 = new THREE.CSS3DRenderer();
+    // renderer2.domElement.style.pointerEvents = 'none';
     renderer2.setSize(window.innerWidth, window.innerHeight);
     renderer2.domElement.style.position = 'absolute';
     renderer2.domElement.style.top = 0;
@@ -160,8 +163,6 @@ function createScene(){
 
     scene2 = new THREE.Scene();
     scene = new THREE.Scene();
-
-    // MESHES IN SCENE
 
     //YOUTUBE
 
@@ -474,14 +475,25 @@ function onDocumentMouseDown(event) {
 
             let tweenBack = new TWEEN.Tween(currentPosition).to(firstPosition, 1000)
                 .easing(TWEEN.Easing.Exponential.Out)
+                .onStart( function() {
+                    raycaster.setFromCamera( mouse, camera );
+                    intersects = raycaster.intersectObjects(scene.children, true);
+
+                })
                 .onUpdate( function () {
                     intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
                     intersects[0].object.position.x = currentPosition.x
                     intersects[0].object.position.y = currentPosition.y
                     intersects[0].object.position.z = currentPosition.z
+                    camera.lookAt(intersects[0].object.position)
+                    // camera.lookAt({x: mouse.x, y: mouse.y, z: camera.position.z})
+
                 })
                 .onComplete( function() {
                     youtube.scale.set(0.1,0.1,0.1)
+
+
+                    // raycaster.setFromCamera( mouse.clone(), camera );
                 })
             tweenBack.start()
 
@@ -519,12 +531,17 @@ function onDocumentMouseDown(event) {
 
             let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
                 .easing(TWEEN.Easing.Exponential.Out)
+                .onStart( function() {
+                    controls.enabled = false;
+
+                })
                 .onUpdate( function () {
                     youtube.scale.set(0,0,0);
                     intersects[0].object.rotation.y = (camCurrentPosition.rot * Math.PI)/180
                     intersects[0].object.position.x = camCurrentPosition.x
                     intersects[0].object.position.y = camCurrentPosition.y
                     intersects[0].object.position.z = camCurrentPosition.z
+                    camera.lookAt(intersects[0].object.position)
                 })
                 .onComplete( function () {
                     loadDivContent(intersects[0].object.name)
@@ -544,6 +561,14 @@ function handleWindowResize() {
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
 }
+function onMouseMove( e ) {
+
+    e.preventDefault()
+	mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1
+
+}
+window.addEventListener('mousemove', onMouseMove, false)
 function render(){
     requestAnimationFrame(render);
 
