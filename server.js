@@ -22,7 +22,7 @@ app.get('/', function(req,res){
         res.sendFile(__dirname + '/public/2d/index.html') ;
 })
 
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), function() {
     console.log(`listening on port ${app.get("port")}`);
 });
 
