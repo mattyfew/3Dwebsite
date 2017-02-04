@@ -56,8 +56,9 @@ nav { background: grey; text-align: center; }
     margin-top: 0.5em;
     color: #2b2b2b;
 }
-.website-container p {
-    font-size: 1.8em;
+.info-popup p {
+    font-size: 1.2em;
+    padding: 24px;
 }
 
 
@@ -78,15 +79,6 @@ nav { background: grey; text-align: center; }
 
 #dev-icons-wrapper { width: 500px; margin: 0 auto; }
 #dev-icons {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-align-content: stretch;
-    align-content: stretch;
-    flex-wrap: wrap;
     margin: 4px;
 }
 #dev-icons svg {
@@ -96,12 +88,13 @@ nav { background: grey; text-align: center; }
     max-width: 55px;
     height: auto;
 }
-footer {color: #474747}
-
+footer {color: #474747; margin-top: 25px}
+.separator { background-color: black}
 
 
 
 #modal h2 {text-transform: uppercase;}
+#modal p {font-size: 1.9em}
 #controls {text-align: left; margin: 50px 5px;}
 #controls p { font-size: 1.1em; text-transform: lowercase;}
 .control-letter {

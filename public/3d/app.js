@@ -106,10 +106,10 @@ function loadDivContent(fileName) {
         })
     } else {
         selectedSite = websiteData[fileName]
-        let html = `<div class="website-container">
+        let html = `<div class="website-container info-popup">
                         <h1>${selectedSite.name}</h1>
                         <div class="lower-half-popup">
-                            <h2>${selectedSite.subheader}</h2
+                            <h2>${selectedSite.subheader}</h2>
                             <p>${selectedSite.text}</p>
                             <a href="${selectedSite.link}" target="_blank">Visit Site</a>
                         </div>
