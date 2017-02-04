@@ -10,6 +10,7 @@ var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var fileLoader = new THREE.FileLoader()
 var websiteData = {}
+var active = false
 
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
@@ -28,9 +29,6 @@ var YoutubePlane = function (id, x, y, z, ry) {
     iframe.style.border = '0px'
     iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('')
     element.appendChild(iframe)
-
-
-
 
     let div = new THREE.CSS3DObject(element)
     div.position.set(x, y, z)
@@ -126,15 +124,13 @@ function loadDivContent(fileName) {
         let opacity = {val:0.0},
             target = {val:1.0}
 
-        let tween = new TWEEN.Tween(opacity).to(target, 2000)
+        let tween = new TWEEN.Tween(opacity).to(target, 1000)
             .easing(TWEEN.Easing.Exponential.Out)
-            // .onStart( function(){
-            //     // controls.enabled = false;
-            // })
             .onUpdate( function(){
                 element.style.opacity = opacity.val
             })
             .onComplete( function() {
+                active = false
                 element.className += " active"
             })
             .start()
@@ -381,7 +377,7 @@ function createPlaneGroup(){
     createPlane(25, startPosY - 80, "urogynecology_center", "/3dwebsite/img/websites/urogynecology_center.jpg")
 
 
-    createPlane(0, startPosY - 120, "about_mf", "/3dwebsite/img/about_me/brandenburg_tor.JPG", true)
+    createPlane(0, startPosY - 120, "about_mf", "/3dwebsite/img/about_me/brandenburg_tor.jpg", true)
 
 
     createPlane(-25, startPosY - 160, "gentle_dental", "/3dwebsite/img/websites/gentle_dental.jpg")
@@ -455,6 +451,11 @@ function createLights() {
 }
 
 function onDocumentMouseDown(event) {
+    if(active){
+        console.log("blocked click");
+        return;
+    }
+
     let vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
     vector = vector.unproject(camera);
     let raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
@@ -530,8 +531,8 @@ function onDocumentMouseDown(event) {
             let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
                 .easing(TWEEN.Easing.Exponential.Out)
                 .onStart( function() {
-                    controls.enabled = false;
-
+                    active = true
+                    controls.enabled = false
                 })
                 .onUpdate( function () {
                     youtube.scale.set(0,0,0);
