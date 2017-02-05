@@ -10,7 +10,11 @@ var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var fileLoader = new THREE.FileLoader()
 var websiteData = {}
-var active = false
+var currentPopUp = {}
+var targetPosition, popUpCurrentPosition, firstPosition, camCurrentPosition, raycaster;
+var tweenActive = false
+var divActive = false
+// var divActive = false
 
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
@@ -64,6 +68,58 @@ var Planet = function(path, name) {
 
     return planet
 }
+var myTweens = {
+    tweenBack : function() {
+        let tweenBack = new TWEEN.Tween(popUpCurrentPosition).to(firstPosition, 1000)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onStart( function() {
+                tweenActive = true
+                raycaster.setFromCamera( mouse, camera );
+                intersects = raycaster.intersectObjects(scene.children, true);
+            })
+            .onUpdate( function () {
+                currentPopUp.rotation.y = (popUpCurrentPosition.rot * Math.PI)/180
+                currentPopUp.position.x = popUpCurrentPosition.x
+                currentPopUp.position.y = popUpCurrentPosition.y
+                currentPopUp.position.z = popUpCurrentPosition.z
+                camera.lookAt(currentPopUp.position)
+            })
+            .onComplete( function() {
+                youtube.scale.set(0.1,0.1,0.1)
+                tweenActive = false
+                controls.enabled = true
+            })
+        tweenBack.start()
+    },
+
+    tweenTowardCamera : function() {
+        let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .onStart( function() {
+                tweenActive = true
+                controls.enabled = false
+            })
+            .onUpdate( function () {
+                youtube.scale.set(0,0,0);
+                currentPopUp.rotation.y = (camCurrentPosition.rot * Math.PI)/180
+                currentPopUp.position.x = camCurrentPosition.x
+                currentPopUp.position.y = camCurrentPosition.y
+                currentPopUp.position.z = camCurrentPosition.z
+                camera.lookAt(currentPopUp.position)
+            })
+            .onComplete( function () {
+                popUpCurrentPosition = {
+                    x: currentPopUp.position.x,
+                    y: currentPopUp.position.y,
+                    z: currentPopUp.position.z,
+                    rot: 360
+                }
+                loadDivContent(currentPopUp.name)
+                tweenActive = false
+            })
+            .start();
+    }
+}
 
 function loadDivContent(fileName) {
     let element = document.createElement('div')
@@ -79,19 +135,27 @@ function loadDivContent(fileName) {
     Object.assign( element.prototype, EventDispatcher.prototype );
 
     element.addEventListener('click', function(e){
-        e.stopPropagation()
+        if (tweenActive || divActive){
+            console.log("blocked click in divContent")
+            return
+        }
 
         let opacity = {val:1.0},
             target = {val:0.0}
 
         let tween = new TWEEN.Tween(opacity).to(target, 1500)
             .easing(TWEEN.Easing.Exponential.Out)
+            .onStart( function() {
+                divActive = true
+                if (fileName != "modal")
+                    myTweens.tweenBack()
+            })
             .onUpdate( function(){
                 element.style.opacity = opacity.val
             })
             .onComplete( function() {
+                divActive = false
                 element.parentNode.removeChild(element)
-                controls.enabled = true
             })
             .start()
     })
@@ -126,11 +190,14 @@ function loadDivContent(fileName) {
 
         let tween = new TWEEN.Tween(opacity).to(target, 1000)
             .easing(TWEEN.Easing.Exponential.Out)
+            .onStart( function() {
+                divActive = true
+            })
             .onUpdate( function(){
                 element.style.opacity = opacity.val
             })
             .onComplete( function() {
-                active = false
+                divActive = false
                 element.className += " active"
             })
             .start()
@@ -404,7 +471,9 @@ function createPlaneGroup(){
         big ? planeGeo = new THREE.PlaneGeometry(70, 50) : planeGeo = new THREE.PlaneGeometry(20, 10);
 
         planeMaterial = new THREE.MeshBasicMaterial({
-            map: new THREE.TextureLoader().load(img_path, function(texture){})
+            map: new THREE.TextureLoader().load(img_path, function(texture){
+                // texture.minFilter = THREE.NearestFilter
+            })
         });
         planeMaterial.side = THREE.DoubleSide
 
@@ -451,50 +520,27 @@ function createLights() {
 }
 
 function onDocumentMouseDown(event) {
-    if(active){
-        console.log("blocked click");
+    if(tweenActive || divActive){
+        console.log("blocked click in mouseDown");
         return;
     }
 
     let vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
     vector = vector.unproject(camera);
-    let raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+    raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
     let intersects = raycaster.intersectObjects(scene.children, true);
 
 
     // PLANE FLIP TWEEN
     // =============================================
 
-    let targetPosition, currentPosition;
     if (intersects.length > 0 && intersects[0].object.geometry.type === "PlaneGeometry") {
+        currentPopUp = intersects[0].object
 
         // TWEENBACK
 
-        if (intersects[0].object.rotation.y > 0){
+        if (currentPopUp.rotation.y > 0){
 
-            currentPosition = {
-                x: intersects[0].object.position.x,
-                y: intersects[0].object.position.y,
-                z: intersects[0].object.position.z,
-                rot: 360
-            }
-
-            let tweenBack = new TWEEN.Tween(currentPosition).to(firstPosition, 1000)
-                .easing(TWEEN.Easing.Exponential.Out)
-                .onStart( function() {
-                    raycaster.setFromCamera( mouse, camera );
-                    intersects = raycaster.intersectObjects(scene.children, true);
-                })
-                .onUpdate( function () {
-                    intersects[0].object.rotation.y = (currentPosition.rot * Math.PI)/180
-                    intersects[0].object.position.x = currentPosition.x
-                    intersects[0].object.position.y = currentPosition.y
-                    intersects[0].object.position.z = currentPosition.z
-                    camera.lookAt(intersects[0].object.position)
-                })
-                .onComplete( function() {
-                    youtube.scale.set(0.1,0.1,0.1)                })
-            tweenBack.start()
 
         // TWEEN
 
@@ -516,36 +562,19 @@ function onDocumentMouseDown(event) {
             }
 
             firstPosition = {
-                x: intersects[0].object.position.x,
-                y: intersects[0].object.position.y,
+                x: currentPopUp.position.x,
+                y: currentPopUp.position.y,
                 z: intersects[0].object.position.z,
                 rot: 0
             }
             camCurrentPosition = {
-                x: intersects[0].object.position.x,
-                y: intersects[0].object.position.y,
-                z: intersects[0].object.position.z,
+                x: currentPopUp.position.x,
+                y: currentPopUp.position.y,
+                z: currentPopUp.position.z,
                 rot: 0
             }
 
-            let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
-                .easing(TWEEN.Easing.Exponential.Out)
-                .onStart( function() {
-                    active = true
-                    controls.enabled = false
-                })
-                .onUpdate( function () {
-                    youtube.scale.set(0,0,0);
-                    intersects[0].object.rotation.y = (camCurrentPosition.rot * Math.PI)/180
-                    intersects[0].object.position.x = camCurrentPosition.x
-                    intersects[0].object.position.y = camCurrentPosition.y
-                    intersects[0].object.position.z = camCurrentPosition.z
-                    camera.lookAt(intersects[0].object.position)
-                })
-                .onComplete( function () {
-                    loadDivContent(intersects[0].object.name)
-                })
-                .start();
+            myTweens.tweenTowardCamera();
         }
 
     } else if (intersects.length > 0 && ( intersects[0].object.name === "torusMesh" || intersects[0].object.name === "arrowMesh" )) {
