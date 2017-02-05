@@ -27,7 +27,7 @@ var YoutubePlane = function (id, x, y, z, ry) {
     iframe.style.width = width
     iframe.style.height = height
     iframe.style.border = '0px'
-    iframe.src = ['http://www.youtube.com/embed/', id, '?rel=0'].join('')
+    iframe.src = ['https://www.youtube.com/embed/', id, '?rel=0'].join('')
     element.appendChild(iframe)
 
     let div = new THREE.CSS3DObject(element)
@@ -190,7 +190,7 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,0,100)
+    camera.position.set(0,-150,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);

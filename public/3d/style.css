@@ -63,19 +63,27 @@ nav { background: grey; text-align: center; }
 
 
 #about-mf-container {padding: 0 }
-#about-left-side { float: left; padding: 12px 0 12px 12px; }
+#about-left-side {
+    overflow-y: scroll;
+    float: left;
+    padding: 12px 0 12px 12px;
+    height: 500px;
+}
 #about-left-side p { max-width: 700px; font-size: 1.3em}
 #skills-container ul:first-child { float: left; }
 #skills-container ul:last-child { float: right; }
-#emoji { letter-spacing: 6px; }
+#emoji { letter-spacing: 6px; font-size: 30px; }
 
-#about-right-side { float: right; }
-#about-right-side img {
-    max-width: 300px;
-    height: auto;
-    display: block;
-    margin: 12px;
-}
+#about-right-side { overflow-y: scroll; height: 500px; padding-left: 12px; margin: 12px 12px 12px 0px; }
+#about-right-side img { max-width: 258px; height: auto; display: block; margin-bottom: 10px; }
+#about-right-side img:last-child { margin-bottom: 0 }
+
+
+#link-icons { margin: 35px 10px; }
+#link-icons a svg { max-width: 60px; max-height: 60px; padding: 10px; margin: 0 20px; background-color: grey; border-radius: 6px; }
+#link-icons a:hover svg { background-color: white; }
+/*#link-icons a:hover svg path {fill:red}
+#linkedid:hover rect, #linkedid:hover path {fill: red}*/
 
 #dev-icons-wrapper { width: 500px; margin: 0 auto; }
 #dev-icons {
@@ -115,7 +123,7 @@ footer {color: #474747; margin-top: 25px}
 
 
 
-.website-container a {
+.info-popup a {
     -moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
     -webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
     box-shadow: 0px 0px 0px 2px #9fb4f2;
@@ -140,7 +148,7 @@ footer {color: #474747; margin-top: 25px}
     text-decoration:none;
     text-shadow:0px 1px 0px #283966;
 }
-.website-container a:hover {
+.info-popup a:hover {
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
     background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
     background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
@@ -150,7 +158,7 @@ footer {color: #474747; margin-top: 25px}
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
     background-color:#476e9e;
 }
-.website-container a:active {
+.info-popup a:active {
     position:relative;
     top:1px;
 }
