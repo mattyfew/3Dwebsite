@@ -72,18 +72,27 @@ nav { background: grey; text-align: center; }
 #about-left-side p { max-width: 700px; font-size: 1.3em}
 #skills-container ul:first-child { float: left; }
 #skills-container ul:last-child { float: right; }
-#emoji { letter-spacing: 6px; font-size: 30px; }
+#emoji { letter-spacing: 6px; font-size: 50px; margin: 30px}
 
 #about-right-side { overflow-y: scroll; height: 500px; padding-left: 12px; margin: 12px 12px 12px 0px; }
 #about-right-side img { max-width: 258px; height: auto; display: block; margin-bottom: 10px; }
 #about-right-side img:last-child { margin-bottom: 0 }
 
 
-#link-icons { margin: 35px 10px; }
-#link-icons a svg { max-width: 60px; max-height: 60px; padding: 10px; margin: 0 20px; background-color: grey; border-radius: 6px; }
-#link-icons a:hover svg { background-color: white; }
-/*#link-icons a:hover svg path {fill:red}
-#linkedid:hover rect, #linkedid:hover path {fill: red}*/
+
+
+
+
+
+#link-icons { margin: 35px auto; background-color: #bdbdbd; padding: 10px; width: 60% }
+#link-icons a svg { max-width: 60px; max-height: 60px; padding: 10px; margin: 0 20px; border-radius: 6px; }
+#link-icons a:hover svg { background-color: #f9f9f9; }
+
+
+
+
+
+
 
 #dev-icons-wrapper { width: 500px; margin: 0 auto; }
 #dev-icons {
