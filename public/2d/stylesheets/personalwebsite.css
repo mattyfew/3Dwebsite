@@ -31,6 +31,9 @@ p {
 a {
   color: #3e3e3e; }
 
+
+
+
 #portfolio-wrapper img:hover {opacity: 0.75}
 
 #nav-selector {
@@ -82,7 +85,7 @@ ul {
 
 #skills-header {
   text-align: center;
-  padding-bottom: 20px; }
+  padding-bottom: 20px;}
 
 .skills h3 {
   text-align: center;
@@ -359,6 +362,11 @@ ul {
 }
 .icon-top {margin-bottom: 20px}
 
+
+@media screen and (max-width: 511px){
+    #skills-header { margin-top: 75px; padding-bottom: 40px}
+    .skills {padding-bottom: 70px}
+}
 
 
 /*# sourceMappingURL=personalwebsite.css.map */

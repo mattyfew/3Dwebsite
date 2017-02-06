@@ -9,6 +9,8 @@
     "express-device": "^0.4.2",
     "express-handlebars": "^3.0.0",
     "hbs": "^4.0.1",
+    "json-loader": "^0.5.4",
+    "serve-favicon": "^2.3.2",
     "three.regular.helvetiker": "^1.0.0"
   },
   "devDependencies": {},
