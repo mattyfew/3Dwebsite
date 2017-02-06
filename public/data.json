@@ -1,0 +1,147 @@
+{
+    "advanced_cosmetic_dentistry" : {
+        "name" : "Paul A. Peterson - Advanced Cosmetic Dentistry",
+        "subheader" : "Dental Practice in Park City, UT",
+        "text" : "I was the primary front end developer on this website. Highlights include custom home and interior pages, video reel, fully responsive design, and a Before &amp; After Gallery.",
+        "link" : "http://www.advancedcosmeticdentistry.com/"
+    },
+    "atlas_vein" : {
+        "name" : "Atlas Vein Care",
+        "subheader" : "Vein Care Specialists located in Arlington, TX",
+        "text" : "I was the primary front end developer on this website. Absolutely love the design for this site. It was a pleasure to watch it come to life.",
+        "link" : "http://www.atlasvein.com/"
+    },
+    "belcor_builders" : {
+        "name" : "Belcor Buidlers, Inc",
+        "subheader" : "General Contractor in Plainview, NY",
+        "text" : "This site came long before I started as a web developer.  While working as the Marketing &amp; Sales Coordinator, I managed the company site's complete overhaul.",
+        "link" : "http://www.belcorbuilders.com/"
+    },
+    "centerderm" : {
+        "name" : "Center for Dermatolgy &amp; Laser Surgery",
+        "subheader" : "Dermatology Practice in Oregon",
+        "text" : "This site has a ton of features. As one of the main developers on this project, I helped built the shopping cart funcitonality, home, service, and staff pages. ",
+        "link" : "http://www.centerdermlaser.com/"
+    },
+    "dental_phobia" : {
+        "name" : "Dental Phobia",
+        "subheader" : "Dental Practice in New York, NY",
+        "text" : "Fun unique design on this one. As one of the main developers for this project, I helped redesign the home and service pages. Also converted the site to be fully responsive.",
+        "link" : "http://www.dentalphobia.com/"
+    },
+    "dfw_spine" : {
+        "name" : "DFW Center for Spinal Disorders",
+        "subheader" : "Spinal Care Practice with offices in Texas",
+        "text" : "I was the primary front end developer on this project. Had the opportunity to experiment on some new designs and effects. I'm really happy with how it came out :)",
+        "link" : "http://dfwspinecenter.com/"
+    },
+    "dr_alison_black" : {
+        "name" : "Las Colinas Dermatology",
+        "subheader" : "Dermatology Practice in Irving, TX",
+        "text" : "I was the primary front end developer on this website. Highlights include custom home page, online store, and extensive photo editing and graphic artwork.",
+        "link" : "http://www.dralisonblack.com/"
+    },
+    "dr_maieve" : {
+        "name" : "Dra. Maiéve Corralo",
+        "subheader" : "Plastic Surgeon practice in Rio de Janeiro, Brazil",
+        "text" : "I was the sole front end developer on this website.  Being able to speak Spanish, I was able to work around the Portuguese language quite easily.",
+        "link" : "http://www.dramaieve.med.br/"
+    },
+    "dr_perron" : {
+        "name" : "Dra. Maiéve Corralo",
+        "subheader" : "Plastic Surgeon practice in Rio de Janeiro, Brazil",
+        "text" : "I was the sole front end developer on this website.  Being able to speak Spanish, I was able to work around the Portuguese language quite easily.",
+        "link" : "http://www.drperron.com/"
+    },
+    "eye_surgery_center" : {
+        "name" : "Eye Surgery Center of New Yorks",
+        "subheader" : "Plastic Surgeon in Calgary, Canada",
+        "text" : "I was the primary front end developers for this site.",
+        "link" : "http://www.eyescny.com/"
+    },
+    "galleria" : {
+        "name" : "Galleria Dental Aesthetics",
+        "subheader" : "Private Dental Practice in McLean, Va",
+        "text" : "As the primary developer for this website, I enjoyed laying out this beautiful design. This client had multiple custom pages and layouts made. Hightlights include iframe embedded throughout site, custom photo gallery (as well as photo editing), and patient testimonials page.",
+        "link" : "http://www.leeohdds.com/"
+    },
+    "gentle_dental" : {
+        "name" : "Gentle Dental",
+        "subheader" : "Dental Practice in Edison, NJ",
+        "text" : "I was the primary front end developer on this website. Highlights include smile gallery and testimonials page.",
+        "link" : "http://www.gentledentalllc.com/"
+    },
+    "mcdowell" : {
+        "name" : "McDowell Dental Group",
+        "subheader" : "Dental Practice in Abington, PA",
+        "text" : "I programmed the entire front end of this website. Features include photo gallery installation and design, image editing in Photoshop, custom design on \"Our Team\" page, working with the third-party Testimonials widget, and blog import and design.",
+        "link" : "http://www.mcdowelldentalgroup.com/"
+    },
+    "priest_dental" : {
+        "name" : "Priest Dental",
+        "subheader" : "Dental Practice in Ashland, OH",
+        "text" : "I was the primary front end developer on this website. Simple, UX friendly layout with a comforting blue theme.",
+        "link" : "http://www.priestdental.com/"
+    },
+    "retinal_san_antonio" : {
+        "name" : "Retinal Consultants of San Antonio",
+        "subheader" : "Opthamology practice in San Antonio, TX",
+        "text" : "I was the primary front end developer on this website. This was a responsive conversion, meaning the initial design for the site had already been implemented, but needed to be made responsive for mobile and tablet viewing.",
+        "link" : "http://www.retinasanantonio.com/"
+    },
+    "retro_express" : {
+        "name" : "Retro-Express",
+        "subheader" : "3D Flying Game built with Three.js",
+        "text" : "This was my final project for General Assembly.  Along with my partner, Spencer Denauski, we designed the game logic, 3 dimensional design, enemy generation, flight simulation, and all the other fun 3D stuff. This was my first try at developing in 3D, and I absolutely loved it!",
+        "link" : "http://oxideous.com/retroexpress/"
+    },
+    "schlessinger" : {
+        "name" : "Schlessinger Eye &amp; Face",
+        "subheader" : "Private Dental Practice in Woodbury, NY",
+        "text" : "I was the primary front end developer on this project.  This client had a lot of media that we had to curate, edit, and insert into the site's inner pages.",
+        "link" : "http://www.schlessingereyeandface.com/"
+    },
+    "smiles_4_a_lifetime" : {
+        "name" : "Smiles 4 A Lifetime",
+        "subheader" : "Dental Practice in New York, NY",
+        "text" : "I designed and built the photo gallery for this site.",
+        "link" : "http://www.smiles4alifetime.com/"
+    },
+    "spiced" : {
+        "name" : "SPICED Academy",
+        "subheader" : "Computer Programming Bootcamp in Berlin, Germany",
+        "text" : "This is where I currently work!  We migrated the original site from WordPress to Node.js with Handlebars, Express, jQuery, and Foundation.  We also redesigned the application system, incorporating the Slack and Google Docs API to track applicants",
+        "link" : "https://www.spiced-academy.com/"
+    },
+    "static_address" : {
+        "name" : "Static Address",
+        "subheader" : "Music Media Sharing Web Application built with Ruby on Rails",
+        "text" : "Another project from my General Assembly days, along with my group we designed and built the entire site using Ruby on Rails, Soundcloud &amp; Youtube widgets, and Postgres database.",
+        "link" : "https://fast-harbor-6565.herokuapp.com/"
+    },
+    "tennessee_vein" : {
+        "name" : "The Tennessee Vein Center",
+        "subheader" : "Phlebology practice in Alcoa, TN",
+        "text" : "I designed and created many of the inner pages of this site, including the photo gallery.",
+        "link" : "http://www.tnveincenter.com/"
+    },
+    "the_vein_clinic" : {
+        "name" : "TSRH Forum",
+        "subheader" : "Phlebology practice in Columbia, SC",
+        "text" : "I designed and built the photo gallery for this site.",
+        "link" : "http://45.55.206.166:3000/tsrh"
+    },
+    "tsrh_home" : {
+        "name" : "TSRH Forum",
+        "subheader" : "Web forum I built while attending General Assembly in NYC",
+        "text" : "This was a fun one! I used Node.js along with Express, jQuery, SQLite3, and Foundation to build this one.",
+        "link" : "http://45.55.206.166:3000/tsrh"
+    },
+    "urogynecology_center" : {
+        "name" : "The Urogynecology Center",
+        "subheader" : "Urogynecology practice in Overland Park, KS",
+        "text" : "I was the primary front end developer on this website. Highlights include custom home page &amp; FAQ section.",
+        "link" : "http://www.urogyncenter.com/"
+    }
+
+}

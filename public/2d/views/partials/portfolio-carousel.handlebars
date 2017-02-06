@@ -1,0 +1,18 @@
+<div class="section portfolio">
+    <div id="portfolio-wrapper" class="wow slideInUp inner row">
+        <div class="small-10 small-centered">
+
+            {{#each data}}
+            <div class="slide" target="_blank">
+                <div class="slide-wrapper">
+                    <h6>{{name}}</h6>
+                    <a target="_blank" href="{{link}}"><img src="/public/img/websites/{{@key}}.jpg" alt="{{name}}" /></a>
+                    <a class="click-to-view" target="_blank" href="{{link}}">Click to view</a>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+
+    </div>
+</div>
