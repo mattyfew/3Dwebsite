@@ -46,11 +46,11 @@ var ContactButton = function (x,y,z) {
     let width = '400px'
     let height = '100px'
 
-    element.style.padding = '0'
-    element.style.backgroundColor = '#131FAD'
-    element.style.borderRadius = 25 + "px"
+    // element.style.padding = '0'
+    // element.style.backgroundColor = '#131FAD'
+    // element.style.borderRadius = 25 + "px"
     element.className = 'contact-button'
-    element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">Email me!</a>';
+    element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">👨‍💻 Email me! </a>';
 
     let div = new THREE.CSS3DObject(element)
     div.position.set(x,y,z)
@@ -257,7 +257,7 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,-150,100)
+    camera.position.set(0,-400,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
