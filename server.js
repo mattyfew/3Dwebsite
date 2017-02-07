@@ -27,7 +27,7 @@ app.get('/', function(req,res){
     if (req.device.type === "desktop"){
         res.sendFile(__dirname + '/public/3d/html/index.html')
     } else {
-        res.render('index', { data : require('./public/data.json') })
+        res.render('index.handlebars', { data : require('./public/data.json') })
     }
 })
 
