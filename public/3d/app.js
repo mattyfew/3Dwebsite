@@ -464,7 +464,7 @@ function createPlaneGroup(){
         big ? planeGeo = new THREE.PlaneGeometry(70, 50) : planeGeo = new THREE.PlaneGeometry(20, 10);
 
         let loader = new THREE.TextureLoader()
-        loader.setTexturePath( '../img' )
+        loader.setPath( '../img' )
 
         planeMaterial = new THREE.MeshBasicMaterial({
             map: loader.load(img_path, function(){})
