@@ -19,14 +19,14 @@ app.engine('handlebars', hbs({
     partialsDir: './public/2d/views/partials',
     defaultLayout: 'default'
 }));
-app.set('views', __dirname + '/public/2d/viewsfff/');
+app.set('views', __dirname + '/public/2d/views/');
 app.set('view engine', 'handlebars');
 
 app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
     req.device.type === "desktop" ?
         res.sendFile(__dirname + '/public/3d/html/index.html') :
-        res.render('/hkhjgkhghjgk/views/index.handlebars', { data : require('./public/data.json') })
+        res.render('/public/2d//views/index.handlebars', { data : require('./public/data.json') })
 
 })
 
