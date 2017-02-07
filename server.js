@@ -26,7 +26,7 @@ app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
     req.device.type === "desktop" ?
         res.sendFile(__dirname + '/public/3d/html/index.html') :
-        res.render('/public/2d/views/index.handlebars', { data : require('./public/data.json') })
+        res.render('./index.handlebars', { data : require('./public/data.json') })
 
 })
 
