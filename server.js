@@ -24,11 +24,10 @@ app.set('view engine', 'handlebars');
 
 app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
-    if (req.device.type === "desktop"){
-        res.sendFile(__dirname + '/public/3d/html/index.html')
-    } else {
+    req.device.type === "desktop" ?
+        res.sendFile(__dirname + '/public/3d/html/index.html') :
         res.render('/hkhjgkhghjgk/views/index.handlebars', { data : require('./public/data.json') })
-    }
+    
 })
 
 app.listen(app.get("port"), function() {
