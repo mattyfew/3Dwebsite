@@ -284,7 +284,7 @@ function createScene(){
 
     // LOADING JSON DATA
 
-    fileLoader.load('./assets/data.json', function(jsonData) {
+    fileLoader.load('/3Dwebsite/public/data.json', function(jsonData) {
         websiteData = JSON.parse(jsonData)
     })
 }
@@ -420,41 +420,41 @@ function createPlaneGroup(){
 
     let startPosY = -60
 
-    createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "./img/websites/advanced_cosmetic_dentistry.jpg")
-    createPlane(0, startPosY - 20, "retro_express", "./img/websites/retro_express.jpg")
-    createPlane(25, startPosY - 20, "dr_maieve", "./img/websites/dr_maieve.jpg")
+    createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "/3Dwebsite/public/img/websites/advanced_cosmetic_dentistry.jpg")
+    createPlane(0, startPosY - 20, "retro_express", "/3Dwebsite/public/img/websites/retro_express.jpg")
+    createPlane(25, startPosY - 20, "dr_maieve", "/3Dwebsite/public/img/websites/dr_maieve.jpg")
 
-    createPlane(-25, startPosY - 40, "dr_alison_black", "./img/websites/dr_alison_black.jpg")
-    createPlane(0, startPosY - 40, "atlas_vein", "./img/websites/atlas_vein.jpg")
-    createPlane(25, startPosY - 40, "galleria", "./img/websites/galleria.jpg")
+    createPlane(-25, startPosY - 40, "dr_alison_black", "/3Dwebsite/public/img/websites/dr_alison_black.jpg")
+    createPlane(0, startPosY - 40, "atlas_vein", "/3Dwebsite/public/img/websites/atlas_vein.jpg")
+    createPlane(25, startPosY - 40, "galleria", "/3Dwebsite/public/img/websites/galleria.jpg")
 
-    createPlane(-25, startPosY - 60, "spiced", "./img/websites/spiced.jpg")
-    createPlane(0, startPosY - 60, "dr_perron", "./img/websites/dr_perron.jpg")
-    createPlane(25, startPosY - 60, "schlessinger", "./img/websites/schlessinger.jpg")
+    createPlane(-25, startPosY - 60, "spiced", "/3Dwebsite/public/img/websites/spiced.jpg")
+    createPlane(0, startPosY - 60, "dr_perron", "/3Dwebsite/public/img/websites/dr_perron.jpg")
+    createPlane(25, startPosY - 60, "schlessinger", "/3Dwebsite/public/img/websites/schlessinger.jpg")
 
-    createPlane(-25, startPosY - 80, "static_address", "./img/websites/static_address.jpg")
-    createPlane(0, startPosY - 80, "tsrh_home", "./img/websites/tsrh_home.jpg")
-    createPlane(25, startPosY - 80, "urogynecology_center", "./img/websites/urogynecology_center.jpg")
-
-
-    createPlane(0, startPosY - 120, "about_mf", "./img/about_me/brandenburg_tor.jpg", true)
+    createPlane(-25, startPosY - 80, "static_address", "/3Dwebsite/public/img/websites/static_address.jpg")
+    createPlane(0, startPosY - 80, "tsrh_home", "/3Dwebsite/public/img/websites/tsrh_home.jpg")
+    createPlane(25, startPosY - 80, "urogynecology_center", "/3Dwebsite/public/img/websites/urogynecology_center.jpg")
 
 
-    createPlane(-25, startPosY - 160, "gentle_dental", "./img/websites/gentle_dental.jpg")
-    createPlane(0, startPosY - 160, "mcdowell", "./img/websites/mcdowell.jpg")
-    createPlane(25, startPosY - 160, "dental_phobia", "./img/websites/dental_phobia.jpg")
+    createPlane(0, startPosY - 120, "about_mf", "/3Dwebsite/public/img/about_me/brandenburg_tor.jpg", true)
 
-    createPlane(-25, startPosY - 180, "belcor_builders", "./img/websites/belcor_builders.jpg")
-    createPlane(0, startPosY - 180, "dfw_spine", "./img/websites/dfw_spine.jpg")
-    createPlane(25, startPosY - 180, "centerderm", "./img/websites/centerderm.jpg")
 
-    createPlane(-25, startPosY - 200, "smiles_4_a_lifetime", "./img/websites/smiles_4_a_lifetime.jpg")
-    createPlane(0, startPosY - 200, "tennessee_vein", "./img/websites/tennessee_vein.jpg")
-    createPlane(25, startPosY - 200, "the_vein_clinic", "./img/websites/the_vein_clinic.jpg")
+    createPlane(-25, startPosY - 160, "gentle_dental", "/3Dwebsite/public/img/websites/gentle_dental.jpg")
+    createPlane(0, startPosY - 160, "mcdowell", "/3Dwebsite/public/img/websites/mcdowell.jpg")
+    createPlane(25, startPosY - 160, "dental_phobia", "/3Dwebsite/public/img/websites/dental_phobia.jpg")
 
-    createPlane(-25, startPosY - 220, "priest_dental", "./img/websites/priest_dental.jpg")
-    createPlane(0, startPosY - 220, "retinal_san_antonio", "./img/websites/retinal_san_antonio.jpg")
-    createPlane(25, startPosY - 220, "eye_surgery_center", "./img/websites/eye_surgery_center.jpg")
+    createPlane(-25, startPosY - 180, "belcor_builders", "/3Dwebsite/public/img/websites/belcor_builders.jpg")
+    createPlane(0, startPosY - 180, "dfw_spine", "/3Dwebsite/public/img/websites/dfw_spine.jpg")
+    createPlane(25, startPosY - 180, "centerderm", "/3Dwebsite/public/img/websites/centerderm.jpg")
+
+    createPlane(-25, startPosY - 200, "smiles_4_a_lifetime", "/3Dwebsite/public/img/websites/smiles_4_a_lifetime.jpg")
+    createPlane(0, startPosY - 200, "tennessee_vein", "/3Dwebsite/public/img/websites/tennessee_vein.jpg")
+    createPlane(25, startPosY - 200, "the_vein_clinic", "/3Dwebsite/public/img/websites/the_vein_clinic.jpg")
+
+    createPlane(-25, startPosY - 220, "priest_dental", "/3Dwebsite/public/img/websites/priest_dental.jpg")
+    createPlane(0, startPosY - 220, "retinal_san_antonio", "/3Dwebsite/public/img/websites/retinal_san_antonio.jpg")
+    createPlane(25, startPosY - 220, "eye_surgery_center", "/3Dwebsite/public/img/websites/eye_surgery_center.jpg")
 
     scene.add(planeGroup);
 
