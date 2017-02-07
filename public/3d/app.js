@@ -420,41 +420,41 @@ function createPlaneGroup(){
 
     let startPosY = -60
 
-    createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "/websites/advanced_cosmetic_dentistry.jpg")
-    createPlane(0, startPosY - 20, "retro_express", "/websites/retro_express.jpg")
-    createPlane(25, startPosY - 20, "dr_maieve", "/websites/dr_maieve.jpg")
+    createPlane(-25, startPosY - 20, "advanced_cosmetic_dentistry", "/public/img/websites/advanced_cosmetic_dentistry.jpg")
+    createPlane(0, startPosY - 20, "retro_express", "/public/img/websites/retro_express.jpg")
+    createPlane(25, startPosY - 20, "dr_maieve", "/public/img/websites/dr_maieve.jpg")
 
-    createPlane(-25, startPosY - 40, "dr_alison_black", "/websites/dr_alison_black.jpg")
-    createPlane(0, startPosY - 40, "atlas_vein", "/websites/atlas_vein.jpg")
-    createPlane(25, startPosY - 40, "galleria", "/websites/galleria.jpg")
+    createPlane(-25, startPosY - 40, "dr_alison_black", "/public/img/websites/dr_alison_black.jpg")
+    createPlane(0, startPosY - 40, "atlas_vein", "/public/img/websites/atlas_vein.jpg")
+    createPlane(25, startPosY - 40, "galleria", "/public/img/websites/galleria.jpg")
 
-    createPlane(-25, startPosY - 60, "spiced", "/websites/spiced.jpg")
-    createPlane(0, startPosY - 60, "dr_perron", "/websites/dr_perron.jpg")
-    createPlane(25, startPosY - 60, "schlessinger", "/websites/schlessinger.jpg")
+    createPlane(-25, startPosY - 60, "spiced", "/public/img/websites/spiced.jpg")
+    createPlane(0, startPosY - 60, "dr_perron", "/public/img/websites/dr_perron.jpg")
+    createPlane(25, startPosY - 60, "schlessinger", "/public/img/websites/schlessinger.jpg")
 
-    createPlane(-25, startPosY - 80, "static_address", "/websites/static_address.jpg")
-    createPlane(0, startPosY - 80, "tsrh_home", "/websites/tsrh_home.jpg")
-    createPlane(25, startPosY - 80, "urogynecology_center", "/websites/urogynecology_center.jpg")
+    createPlane(-25, startPosY - 80, "static_address", "/public/img/websites/static_address.jpg")
+    createPlane(0, startPosY - 80, "tsrh_home", "/public/img/websites/tsrh_home.jpg")
+    createPlane(25, startPosY - 80, "urogynecology_center", "/public/img/websites/urogynecology_center.jpg")
 
 
     createPlane(0, startPosY - 120, "about_mf", "../img/about_me/brandenburg_tor.jpg", true)
 
 
-    createPlane(-25, startPosY - 160, "gentle_dental", "/websites/gentle_dental.jpg")
-    createPlane(0, startPosY - 160, "mcdowell", "/websites/mcdowell.jpg")
-    createPlane(25, startPosY - 160, "dental_phobia", "/websites/dental_phobia.jpg")
+    createPlane(-25, startPosY - 160, "gentle_dental", "/public/img/websites/gentle_dental.jpg")
+    createPlane(0, startPosY - 160, "mcdowell", "/public/img/websites/mcdowell.jpg")
+    createPlane(25, startPosY - 160, "dental_phobia", "/public/img/websites/dental_phobia.jpg")
 
-    createPlane(-25, startPosY - 180, "belcor_builders", "/websites/belcor_builders.jpg")
-    createPlane(0, startPosY - 180, "dfw_spine", "/websites/dfw_spine.jpg")
-    createPlane(25, startPosY - 180, "centerderm", "/websites/centerderm.jpg")
+    createPlane(-25, startPosY - 180, "belcor_builders", "/public/img/websites/belcor_builders.jpg")
+    createPlane(0, startPosY - 180, "dfw_spine", "/public/img/websites/dfw_spine.jpg")
+    createPlane(25, startPosY - 180, "centerderm", "/public/img/websites/centerderm.jpg")
 
-    createPlane(-25, startPosY - 200, "smiles_4_a_lifetime", "/websites/smiles_4_a_lifetime.jpg")
-    createPlane(0, startPosY - 200, "tennessee_vein", "/websites/tennessee_vein.jpg")
-    createPlane(25, startPosY - 200, "the_vein_clinic", "/websites/the_vein_clinic.jpg")
+    createPlane(-25, startPosY - 200, "smiles_4_a_lifetime", "/public/img/websites/smiles_4_a_lifetime.jpg")
+    createPlane(0, startPosY - 200, "tennessee_vein", "/public/img/websites/tennessee_vein.jpg")
+    createPlane(25, startPosY - 200, "the_vein_clinic", "/public/img/websites/the_vein_clinic.jpg")
 
-    createPlane(-25, startPosY - 220, "priest_dental", "/websites/priest_dental.jpg")
-    createPlane(0, startPosY - 220, "retinal_san_antonio", "/websites/retinal_san_antonio.jpg")
-    createPlane(25, startPosY - 220, "eye_surgery_center", "/websites/eye_surgery_center.jpg")
+    createPlane(-25, startPosY - 220, "priest_dental", "/public/img/websites/priest_dental.jpg")
+    createPlane(0, startPosY - 220, "retinal_san_antonio", "/public/img/websites/retinal_san_antonio.jpg")
+    createPlane(25, startPosY - 220, "eye_surgery_center", "/public/img/websites/eye_surgery_center.jpg")
 
     scene.add(planeGroup);
 
@@ -464,7 +464,6 @@ function createPlaneGroup(){
         big ? planeGeo = new THREE.PlaneGeometry(70, 50) : planeGeo = new THREE.PlaneGeometry(20, 10);
 
         let loader = new THREE.TextureLoader()
-        loader.setPath( '../img' )
 
         planeMaterial = new THREE.MeshBasicMaterial({
             map: loader.load(img_path, function(){})
