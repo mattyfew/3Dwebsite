@@ -25,10 +25,9 @@ app.set('view engine', 'handlebars');
 app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
     if (req.device.type === "desktop"){
-        // fs.createReadStream('/public/3d/html/index.html').pipe
         res.sendFile(__dirname + '/public/3d/html/index.html')
     } else {
-        res.render('/public/2d/views/index.handlebars', { data : require('./public/data.json') })
+        res.render('index', { data : require('./public/data.json') })
     }
 })
 
