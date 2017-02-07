@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const device = require('express-device');
 const hbs = require('express-handlebars');
+const fs = require('fs');
 const favicon = require('serve-favicon');
 
 app.set('port', process.env.PORT || 8080);
@@ -23,9 +24,12 @@ app.set('view engine', 'handlebars');
 
 app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
-    req.device.type === "desktop" ?
-        res.sendFile(__dirname + '/public/3d/html/index.html') :
-        res.render('./index.handlebars', { data : require('./public/data.json') }) ;
+    if (req.device.type === "desktop"){
+        // fs.createReadStream('/public/3d/html/index.html').pipe
+        res.sendFile(__dirname + '/public/3d/html/index.html')
+    } else {
+        res.render('/public/2d/views/index.handlebars', { data : require('./public/data.json') })
+    }
 })
 
 app.listen(app.get("port"), function() {
