@@ -1,11 +1,11 @@
-var camera, scene, renderer, container;
+var camera, scene, renderer, renderer2, container;
 var datControls, controls;
 var group, planeGroup, texture, youtube;
 var textMesh, textMesh2, textPivot, textMesh3, contactButton, contactPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
 var earthMesh;
 
-var mouse = new THREE.Vector2();
+var mouse = new THREE.Vector2()
 var loader = new THREE.TextureLoader()
 var clock = new THREE.Clock()
 var fileLoader = new THREE.FileLoader()
@@ -14,7 +14,6 @@ var currentPopUp = {}
 var targetPosition, popUpCurrentPosition, firstPosition, camCurrentPosition, raycaster;
 var tweenActive = false
 var divActive = false
-// var divActive = false
 
 var YoutubePlane = function (id, x, y, z, ry) {
     let element = document.createElement('div')
@@ -27,11 +26,14 @@ var YoutubePlane = function (id, x, y, z, ry) {
     element.className = 'three-div'
 
     let iframe = document.createElement('iframe')
-    iframe.style.pointerEvents = "none";
+    // iframe.style.pointerEvents = "none";
     iframe.style.width = width
     iframe.style.height = height
     iframe.style.border = '0px'
-    iframe.src = ['https://www.youtube.com/embed/', id, '?rel=0'].join('')
+    iframe.src = ['https://www.youtube.com/embed/', id, '?rel=0&controls=0'].join('')
+    $('.ytp-thumbnail-overlay-image').on('click', function(e){
+        console.log("youtubing");
+    })
     element.appendChild(iframe)
 
     let div = new THREE.CSS3DObject(element)
@@ -46,9 +48,6 @@ var ContactButton = function (x,y,z) {
     let width = '400px'
     let height = '100px'
 
-    // element.style.padding = '0'
-    // element.style.backgroundColor = '#131FAD'
-    // element.style.borderRadius = 25 + "px"
     element.className = 'contact-button'
     element.innerHTML = '<a href="mailto:mattfewerbiz@gmail.com">👨‍💻 Email me! </a>';
 
@@ -61,7 +60,8 @@ var ContactButton = function (x,y,z) {
 var Planet = function(path, name) {
     let geometry   = new THREE.SphereGeometry(20, 32, 32)
     let material  = new THREE.MeshPhongMaterial()
-    material.map    = THREE.ImageUtils.loadTexture(path)
+    // material.map = THREE.ImageUtils.loadTexture(path)
+    material.map = loader.load(path)
     planet = new THREE.Mesh(geometry, material)
     planet.name = name
     planet.position.set(220,-200, -180)
@@ -98,6 +98,7 @@ var myTweens = {
             .onStart( function() {
                 tweenActive = true
                 controls.enabled = false
+                console.log("controls turned off");
             })
             .onUpdate( function () {
                 youtube.scale.set(0,0,0);
@@ -221,7 +222,6 @@ function createScene(){
     // RENDERER #2 - CSS3D
 
     renderer2 = new THREE.CSS3DRenderer();
-    // renderer2.domElement.style.pointerEvents = 'none';
     renderer2.setSize(window.innerWidth, window.innerHeight);
     renderer2.domElement.style.position = 'absolute';
     renderer2.domElement.style.top = 0;
@@ -232,15 +232,15 @@ function createScene(){
 
     loadDivContent("modal")
 
-    //YOUTUBE
-
+    /* //YOUTUBE
     youtube = new YoutubePlane('kJvrgyHXrMo', 0, -330, 0, 0) // The Monster
     youtube.scale.set(0.1, 0.1, 0.1)
     scene2.add(youtube)
+     */
 
     // ContactButton
 
-    contactButton = new ContactButton(0, -430, 0)
+    contactButton = new ContactButton(0, -355, 0)
     contactButton.scale.set(0.1, 0.1, 0.1)
     scene2.add(contactButton)
 
@@ -257,7 +257,7 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,0,100)
+    camera.position.set(0,-350,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -287,17 +287,25 @@ function createScene(){
     fileLoader.load('/3dwebsite/assets/data.json', function(jsonData) {
         websiteData = JSON.parse(jsonData)
     })
+
+    // Block iframe events when dragging camera
+    var blocker = document.getElementById( 'blocker' );
+    blocker.style.display = 'none';
+    document.addEventListener( 'mousedown', function () { blocker.style.display = ''; } );
+    document.addEventListener( 'mouseup', function () { blocker.style.display = 'none'; } );
+
+
 }
 
 function createText(){
 
     textPivot = new THREE.Object3D();
     textPivot.name = "textPivot"
-    textPivot.position.set(-65 ,5 ,0)
+    textPivot.position.set(-65, 5, 0)
 
     contactPivot = new THREE.Object3D();
     contactPivot.name = "contactPivot"
-    contactPivot.position.set(0 ,-400 ,0)
+    contactPivot.position.set(0, -330, 0)
 
     let loader = new THREE.FontLoader();
     let textMaterial = new THREE.MeshPhongMaterial( {
@@ -348,18 +356,14 @@ function createText(){
         // THIRD LINE
 
         textGeo = new THREE.TextGeometry( "Let's talk!", options);
-
         textMesh3 = new THREE.Mesh( textGeo, textMaterial );
-        // textMesh3.position.set( -28,-320,0 );
         textMesh3.position.set( -28,0,0 );
 
         textMesh3.name = "third_line"
         textMesh3.receiveShadow = true
 
         contactPivot.add(textMesh3)
-
         scene.add(contactPivot)
-        // scene.add(textMesh3)
     })
 
 };
@@ -518,26 +522,20 @@ function onDocumentMouseDown(event) {
         return;
     }
 
+    event.preventDefault()
+
     let vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
     vector = vector.unproject(camera);
     raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
     let intersects = raycaster.intersectObjects(scene.children, true);
 
-
     // PLANE FLIP TWEEN
-    // =============================================
 
     if (intersects.length > 0 && intersects[0].object.geometry.type === "PlaneGeometry") {
         currentPopUp = intersects[0].object
 
-        // TWEENBACK
+        if (!(currentPopUp.rotation.y > 0)){
 
-        if (currentPopUp.rotation.y > 0){
-
-
-        // TWEEN
-
-        } else {
             if (intersects[0].object.name === "about_mf"){
                 targetPosition = {
                     x: camera.position.x,
@@ -570,8 +568,8 @@ function onDocumentMouseDown(event) {
             myTweens.tweenTowardCamera();
         }
 
-    } else if (intersects.length > 0 && ( intersects[0].object.name === "torusMesh" || intersects[0].object.name === "arrowMesh" )) {
-        runClickTweens = true
+    } else if (intersects.length > 0 && ( intersects[0].object.name === "youtube" )) {
+        console.log(intersects);
     }
 }
 function handleWindowResize() {
@@ -579,17 +577,10 @@ function handleWindowResize() {
 	HEIGHT = window.innerHeight;
 	WIDTH = window.innerWidth;
 	renderer.setSize(WIDTH, HEIGHT);
+    renderer2.setSize(WIDTH, HEIGHT);
 	camera.aspect = WIDTH / HEIGHT;
 	camera.updateProjectionMatrix();
 }
-// function onMouseMove( e ) {
-//
-//     e.preventDefault()
-// 	mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
-// 	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1
-//
-// }
-// window.addEventListener('mousemove', onMouseMove, false)
 function render(){
     requestAnimationFrame(render);
 
