@@ -260,7 +260,7 @@ function createScene(){
     farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
-    camera.position.set(0,-350,100)
+    camera.position.set(0,0,100)
 
     window.addEventListener('resize', handleWindowResize, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
@@ -275,7 +275,7 @@ function createScene(){
     // FIRSTPERSONCONTROLS
 
     controls = new THREE.FirstPersonControls(camera)
-    controls.lookSpeed = 0.1;
+    controls.lookSpeed = 0.01;
     controls.movementSpeed = 20;
     controls.noFly = true;
     controls.lookVertical = true;
