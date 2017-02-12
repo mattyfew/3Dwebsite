@@ -85,7 +85,7 @@ var myTweens = {
                 camera.lookAt(currentPopUp.position)
             })
             .onComplete( function() {
-                youtube.scale.set(0.1,0.1,0.1)
+                // youtube.scale.set(0.1,0.1,0.1)
                 tweenActive = false
                 controls.enabled = true
             })
@@ -101,7 +101,7 @@ var myTweens = {
                 console.log("controls turned off");
             })
             .onUpdate( function () {
-                youtube.scale.set(0,0,0);
+                // youtube.scale.set(0,0,0);
                 currentPopUp.rotation.y = (camCurrentPosition.rot * Math.PI)/180
                 currentPopUp.position.x = camCurrentPosition.x
                 currentPopUp.position.y = camCurrentPosition.y
