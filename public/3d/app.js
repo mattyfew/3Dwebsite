@@ -1,8 +1,9 @@
-var camera, scene, renderer, renderer2, container;
+var camera, scene, scene2, renderer, renderer2, container;
 var datControls, controls;
 var group, planeGroup, texture, youtube;
 var textMesh, textMesh2, textPivot, textMesh3, contactButton, contactPivot;
 var torusMesh, arrowMesh, buttonPivot, theTarget, runClickTweens;
+var spotLight, spotLight2, spotLight3;
 var earthMesh;
 
 var mouse = new THREE.Vector2()
@@ -62,7 +63,7 @@ var Planet = function(path, name) {
     let material  = new THREE.MeshPhongMaterial()
     // material.map = THREE.ImageUtils.loadTexture(path)
     material.map = loader.load(path)
-    planet = new THREE.Mesh(geometry, material)
+    let planet = new THREE.Mesh(geometry, material)
     planet.name = name
     planet.position.set(220,-200, -180)
 
@@ -74,8 +75,6 @@ var myTweens = {
             .easing(TWEEN.Easing.Exponential.Out)
             .onStart( function() {
                 tweenActive = true
-                raycaster.setFromCamera( mouse, camera );
-                intersects = raycaster.intersectObjects(scene.children, true);
             })
             .onUpdate( function () {
                 currentPopUp.rotation.y = (popUpCurrentPosition.rot * Math.PI)/180
@@ -126,7 +125,7 @@ var myTweens = {
 }
 
 function loadDivContent(fileName) {
-    let element = document.createElement('div')
+    let element = document.createElement('div'),
         HEIGHT = $(window).height(),
         WIDTH = $(window).width(),
         selectedSite = {};
@@ -209,9 +208,9 @@ function loadDivContent(fileName) {
 }
 function createScene(){
 
-    container = document.getElementById('container');
-    HEIGHT = window.innerHeight;
-    WIDTH = window.innerWidth;
+    let container = document.getElementById('container'),
+        HEIGHT = window.innerHeight,
+        WIDTH = window.innerWidth;
 
     // RENDERER #1
 
@@ -254,10 +253,10 @@ function createScene(){
 
     // CAMERA
 
-    aspectRatio = WIDTH / HEIGHT;
-    fieldOfView = 60;
-    nearPlane = 0.5;
-    farPlane = 1000;
+    let aspectRatio = WIDTH / HEIGHT,
+        fieldOfView = 60,
+        nearPlane = 0.5,
+        farPlane = 1000;
     camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane );
     camera.target = scene.position.clone();
     camera.position.set(0,0,100)
@@ -284,6 +283,8 @@ function createScene(){
     controls.verticalMax = 2.0;
     controls.lon = -90;
     controls.lat = 20;
+    // controls.mouseDragOn = false;
+
 
     // LOADING JSON DATA
 
@@ -334,6 +335,7 @@ function createText(){
         // FIRST LINE
 
         let textGeo = new THREE.TextGeometry( "Hello! I'm Matt Fewer.", options);
+
         textMesh = new THREE.Mesh( textGeo, textMaterial );
         textMesh.position.set( 0,0,0 );
         textMesh.name = "first_line"
@@ -348,20 +350,16 @@ function createText(){
         textMesh2.position.set( 0,-30,0 );
         textMesh2.name = "second_line"
         textMesh2.receiveShadow = true
+
         textPivot.add(textMesh2)
-
         scene.add(textPivot)
-    } );
-
-    loader.load( '/3dwebsite/fonts/optimer_regular.typeface.json', function ( font ) {
-        options.font = font;
 
         // THIRD LINE
 
         textGeo = new THREE.TextGeometry( "Let's talk!", options);
+
         textMesh3 = new THREE.Mesh( textGeo, textMaterial );
         textMesh3.position.set( -28,0,0 );
-
         textMesh3.name = "third_line"
         textMesh3.receiveShadow = true
 
@@ -494,11 +492,12 @@ function createLights() {
     // spotLight.position.set(0,0,90);
     spotLight.castShadow = true;
 
-    let target = new THREE.Object3D();
+    // let target = new THREE.Object3D();
     // target.position = new THREE.Vector3(5, 0, 0);
-    target.position = new THREE.Vector3(target.position.x, target.position.y, target.position.z);
-    spotLight.target = target;
-    spotLight.position.set(target.position.x, target.position.y, target.position.z + 100);
+    // target.position = new THREE.Vector3(target.position.x, target.position.y, target.position.z);
+    // target.position = new THREE.Vector3(5, 0, 0);
+    spotLight.target = textPivot;
+    spotLight.position.set(textPivot.position.x, textPivot.position.y, textPivot.position.z + 100);
 
     scene.add(spotLight);
 
