@@ -28,7 +28,7 @@ app.get('/', function(req,res){
 
 })
 
-app.use(function(req,res){
+app.get('*', function(req,res){
     res.sendFile(__dirname + '/public/3d/html/404.html')
 })
 
