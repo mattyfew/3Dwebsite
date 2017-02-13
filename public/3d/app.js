@@ -71,8 +71,8 @@ var Planet = function(path, name) {
 }
 var myTweens = {
     tweenBack() {
-        let tweenBack = new TWEEN.Tween(popUpCurrentPosition).to(firstPosition, 1000)
-            .easing(TWEEN.Easing.Exponential.Out)
+        let tweenBack = new TWEEN.Tween(popUpCurrentPosition).to(firstPosition, 1200)
+            .easing(TWEEN.Easing.Quartic.Out)
             .onStart( function() {
                 tweenActive = true
             })
@@ -94,8 +94,8 @@ var myTweens = {
     },
 
     tweenTowardCamera() {
-        let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000)
-            .easing(TWEEN.Easing.Exponential.Out)
+        let tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 1800)
+            .easing(TWEEN.Easing.Quartic.Out)
             .onStart( function() {
                 tweenActive = true
                 controls.enabled = false

@@ -73,7 +73,7 @@ var Planet = function Planet(path, name) {
 };
 var myTweens = {
     tweenBack: function tweenBack() {
-        var tweenBack = new TWEEN.Tween(popUpCurrentPosition).to(firstPosition, 1000).easing(TWEEN.Easing.Exponential.Out).onStart(function () {
+        var tweenBack = new TWEEN.Tween(popUpCurrentPosition).to(firstPosition, 1200).easing(TWEEN.Easing.Quartic.Out).onStart(function () {
             tweenActive = true;
         }).onUpdate(function () {
             currentPopUp.rotation.y = popUpCurrentPosition.rot * Math.PI / 180;
@@ -91,7 +91,7 @@ var myTweens = {
         tweenBack.start();
     },
     tweenTowardCamera: function tweenTowardCamera() {
-        var tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 2000).easing(TWEEN.Easing.Exponential.Out).onStart(function () {
+        var tween = new TWEEN.Tween(camCurrentPosition).to(targetPosition, 1800).easing(TWEEN.Easing.Quartic.Out).onStart(function () {
             tweenActive = true;
             controls.enabled = false;
             console.log("controls turned off");
