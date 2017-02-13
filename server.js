@@ -22,10 +22,14 @@ app.get('/', function(req,res){
     console.log("client device: " + req.device.type);
     req.device.type === "desktop" ?
         res.sendFile(__dirname + '/public/3d/html/index.html') :
-        res.render('./index.handlebars', { 
+        res.render('./index.handlebars', {
             data : require('./public/data.json')
         })
 
+})
+
+app.use(function(req,res){
+    res.sendFile(__dirname + '/public/3d/html/404.html')
 })
 
 app.listen(app.get("port"), function() {
