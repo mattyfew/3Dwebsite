@@ -36,5 +36,3 @@ This application was built with Three.js, Handlebars, Express, & Node.
 ![home](./public/img/screenshots/mattfewer.com_home.png)
 
 ![bio](./public/img/screenshots/mattfewer.com_bio.png)
-
-![home](./public/img/screenshots/mattfewer.com_lets_talk.png)
